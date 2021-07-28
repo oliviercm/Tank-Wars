@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class EndGamePanel extends JPanel {
-
     private BufferedImage menuBackground;
     private JButton start;
     private JButton exit;

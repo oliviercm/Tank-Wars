@@ -1,6 +1,5 @@
 package tankrotationexample.menus;
 
-
 import tankrotationexample.GameConstants;
 import tankrotationexample.Launcher;
 
@@ -37,7 +36,6 @@ public class StartMenuPanel extends JPanel {
             this.lf.setFrame("game");
         }));
 
-
         exit = new JButton("Exit");
         exit.setSize(new Dimension(200,100));
         exit.setFont(new Font("Courier New", Font.BOLD ,24));
@@ -46,10 +44,8 @@ public class StartMenuPanel extends JPanel {
             this.lf.closeGame();
         }));
 
-
         this.add(start);
         this.add(exit);
-
     }
 
     @Override

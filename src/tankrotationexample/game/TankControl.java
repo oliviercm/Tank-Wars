@@ -1,28 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tankrotationexample.game;
-
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
 /**
- *
- * @author anthony-pc
+ * @author olivec
  */
 public class TankControl implements KeyListener {
-
     private Tank t1;
     private final int up;
     private final int down;
     private final int right;
     private final int left;
     private final int shoot;
-    
+
     public TankControl(Tank t1, int up, int down, int left, int right, int shoot) {
         this.t1 = t1;
         this.up = up;
@@ -52,7 +43,7 @@ public class TankControl implements KeyListener {
         if (keyPressed == right) {
             this.t1.toggleRightPressed();
         }
-        
+
 
     }
 
@@ -71,6 +62,5 @@ public class TankControl implements KeyListener {
         if (keyReleased  == right) {
             this.t1.unToggleRightPressed();
         }
-
     }
 }

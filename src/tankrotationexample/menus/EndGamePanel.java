@@ -35,7 +35,6 @@ public class EndGamePanel extends JPanel {
             this.lf.setFrame("game");
         }));
 
-
         exit = new JButton("Exit");
         exit.setFont(new Font("Courier New", Font.BOLD ,24));
         exit.setBounds(150,400,175,50);
@@ -43,10 +42,8 @@ public class EndGamePanel extends JPanel {
             this.lf.closeGame();
         }));
 
-
         this.add(start);
         this.add(exit);
-
     }
 
     @Override

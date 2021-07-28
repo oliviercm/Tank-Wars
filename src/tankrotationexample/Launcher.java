@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 
 public class Launcher {
-
     /*
      * Main panel in JFrame, the layout of this panel
      * will be card layout, this will allow us to switch
@@ -93,7 +92,6 @@ public class Launcher {
         this.jf.setVisible(true); // show the JFrame
     }
 
-
     public JFrame getJf() {
         return jf;
     }
@@ -102,11 +100,8 @@ public class Launcher {
         this.jf.dispatchEvent(new WindowEvent(this.jf, WindowEvent.WINDOW_CLOSING));
     }
 
-
     public static void main(String[] args) {
         Launcher launch = new Launcher();
         launch.initUIComponents();
     }
-
-
 }

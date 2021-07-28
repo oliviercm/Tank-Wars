@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tankrotationexample.game;
-
 
 import tankrotationexample.GameConstants;
 import tankrotationexample.Launcher;
@@ -21,10 +15,9 @@ import static javax.imageio.ImageIO.read;
 
 /**
  *
- * @author anthony-pc
+ * @author olivec
  */
 public class TRE extends JPanel implements Runnable {
-
     private BufferedImage world;
     private Tank t1;
     private Launcher lf;
@@ -36,25 +29,25 @@ public class TRE extends JPanel implements Runnable {
 
     @Override
     public void run(){
-       try {
+        try {
            this.resetGame();
-           while (true) {
+            while (true) {
                 this.tick++;
                 this.t1.update(); // update tank
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
                 /*
-                 * simulate an end game event
-                 * we will do this with by ending the game when drawn 2000 frames have been drawn
-                 */
+                * simulate an end game event
+                * we will do this with by ending the game when drawn 2000 frames have been drawn
+                */
                 if(this.tick > 2000){
                     this.lf.setFrame("end");
                     return;
                 }
             }
-       } catch (InterruptedException ignored) {
-           System.out.println(ignored);
-       }
+        } catch (InterruptedException ignored) {
+            System.out.println(ignored);
+        }
     }
 
     /**
@@ -65,7 +58,6 @@ public class TRE extends JPanel implements Runnable {
         this.t1.setX(300);
         this.t1.setY(300);
     }
-
 
     /**
      * Load all resources for Tank Wars Game. Set all Game Objects to their
@@ -94,7 +86,6 @@ public class TRE extends JPanel implements Runnable {
         this.lf.getJf().addKeyListener(tc1);
     }
 
-
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -104,5 +95,4 @@ public class TRE extends JPanel implements Runnable {
         this.t1.drawImage(buffer);
         g2.drawImage(world,0,0,null);
     }
-
 }

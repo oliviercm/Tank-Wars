@@ -1,7 +1,5 @@
 package tankrotationexample.game;
 
-
-
 import tankrotationexample.GameConstants;
 
 import java.awt.*;
@@ -9,12 +7,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
- *
- * @author anthony-pc
+ * @author olivec
  */
 public class Tank{
-
-
     private int x;
     private int y;
     private int vx;
@@ -24,14 +19,11 @@ public class Tank{
     private final int R = 2;
     private final float ROTATIONSPEED = 3.0f;
 
-
-
     private BufferedImage img;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
     private boolean LeftPressed;
-
 
     Tank(int x, int y, int vx, int vy, int angle, BufferedImage img) {
         this.x = x;
@@ -40,7 +32,6 @@ public class Tank{
         this.vy = vy;
         this.img = img;
         this.angle = angle;
-
     }
 
     void setX(int x){ this.x = x; }
@@ -119,9 +110,6 @@ public class Tank{
         checkBorder();
     }
 
-
-
-
     private void checkBorder() {
         if (x < 30) {
             x = 30;
@@ -142,14 +130,10 @@ public class Tank{
         return "x=" + x + ", y=" + y + ", angle=" + angle;
     }
 
-
     void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
     }
-
-
-
 }

@@ -19,6 +19,7 @@ import static javax.imageio.ImageIO.read;
  */
 public class MainWindow extends JPanel implements Runnable {
     private BufferedImage world;
+    private BufferedImage worldBackgroundImage;
     private Tank t1;
     private Launcher lf;
     private long tick = 0;
@@ -82,6 +83,7 @@ public class MainWindow extends JPanel implements Runnable {
              * current working directory.
              */
             t1img = read(Objects.requireNonNull(MainWindow.class.getClassLoader().getResource("tank1.png")));
+            this.worldBackgroundImage = read(Objects.requireNonNull(MainWindow.class.getClassLoader().getResource("background.png")));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
@@ -96,10 +98,42 @@ public class MainWindow extends JPanel implements Runnable {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        super.paintComponent(g2);
+
         Graphics2D buffer = world.createGraphics();
-        buffer.setColor(Color.BLACK);
-        buffer.fillRect(0,0,GameConstants.GAME_SCREEN_WIDTH,GameConstants.GAME_SCREEN_HEIGHT);
+
+        buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
+        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+
         this.t1.drawImage(buffer);
-        g2.drawImage(world,0,0,null);
+
+        Point leftCameraPosition = new Point((int) this.t1.getX(), (int) this.t1.getY());
+        int leftX = clamp(leftCameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / 4), 0, GameConstants.GAME_SCREEN_WIDTH);
+        int leftY = clamp(leftCameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / 2), 0, GameConstants.GAME_SCREEN_HEIGHT);
+        int leftXSize = clamp(GameConstants.GAME_SCREEN_WIDTH - leftX, 0, GameConstants.GAME_SCREEN_WIDTH / 2);
+        int leftYSize = clamp(GameConstants.GAME_SCREEN_HEIGHT - leftY, 0, GameConstants.GAME_SCREEN_HEIGHT);
+
+        Point rightCameraPosition = new Point(700, 300);
+        int rightX = clamp(rightCameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / 4), 0, GameConstants.GAME_SCREEN_WIDTH);
+        int rightY = clamp(rightCameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / 2), 0, GameConstants.GAME_SCREEN_HEIGHT);
+        int rightXSize = clamp(GameConstants.GAME_SCREEN_WIDTH - rightX, 0, GameConstants.GAME_SCREEN_WIDTH / 2);
+        int rightYSize = clamp(GameConstants.GAME_SCREEN_HEIGHT - rightY, 0, GameConstants.GAME_SCREEN_HEIGHT);
+
+        BufferedImage leftHalf = world.getSubimage(
+                leftX,
+                leftY,
+                leftXSize,
+                leftYSize);
+        BufferedImage rightHalf = world.getSubimage(
+                rightX,
+                rightY,
+                rightXSize,
+                rightYSize);
+        g2.drawImage(leftHalf,0,0,null);
+        g2.drawImage(rightHalf,GameConstants.GAME_SCREEN_WIDTH / 2,0,null);
+    }
+
+    public static int clamp(int val, int min, int max) {
+        return Math.min(Math.max(min, val), max);
     }
 }

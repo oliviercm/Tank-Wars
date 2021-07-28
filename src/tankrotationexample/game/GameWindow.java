@@ -22,28 +22,35 @@ public class GameWindow extends JPanel implements Runnable {
     private Tank t1;
     private Launcher lf;
     private long tick = 0;
+    private long lastTickTime;
 
     public GameWindow(Launcher lf){
         this.lf = lf;
+        this.lastTickTime = System.currentTimeMillis();
     }
 
     @Override
     public void run(){
         try {
-           this.resetGame();
+            this.resetGame();
             while (true) {
                 this.tick++;
-                this.t1.update(); // update tank
+
+                long currentTime = System.currentTimeMillis();
+                long timeSinceLastTick = currentTime - this.lastTickTime;
+                this.lastTickTime = currentTime;
+
+                this.t1.update(timeSinceLastTick); // update tank
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
                 /*
                 * simulate an end game event
                 * we will do this with by ending the game when drawn 2000 frames have been drawn
                 */
-                if(this.tick > 2000){
-                    this.lf.setFrame("end");
-                    return;
-                }
+//                if(this.tick > 2000){
+//                    this.lf.setFrame("end");
+//                    return;
+//                }
             }
         } catch (InterruptedException ignored) {
             System.out.println(ignored);
@@ -80,7 +87,7 @@ public class GameWindow extends JPanel implements Runnable {
             ex.printStackTrace();
         }
 
-        t1 = new Tank(300, 300, 0, 0, 0, t1img);
+        t1 = new Tank(300, 300, 0, t1img);
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.setBackground(Color.BLACK);
         this.lf.getJf().addKeyListener(tc1);

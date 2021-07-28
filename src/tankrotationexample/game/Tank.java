@@ -9,15 +9,13 @@ import java.awt.image.BufferedImage;
 /**
  * @author olivec
  */
-public class Tank{
-    private int x;
-    private int y;
-    private int vx;
-    private int vy;
-    private float angle;
+public class Tank {
+    private double x;
+    private double y;
+    private double angle;
 
-    private final int R = 2;
-    private final float ROTATIONSPEED = 3.0f;
+    private final float MOVEMENT_SPEED = 0.3f;
+    private final float ROTATION_SPEED = 0.2f;
 
     private BufferedImage img;
     private boolean UpPressed;
@@ -25,18 +23,20 @@ public class Tank{
     private boolean RightPressed;
     private boolean LeftPressed;
 
-    Tank(int x, int y, int vx, int vy, int angle, BufferedImage img) {
+    Tank(double x, double y, double angle, BufferedImage img) {
         this.x = x;
         this.y = y;
-        this.vx = vx;
-        this.vy = vy;
         this.img = img;
         this.angle = angle;
     }
 
-    void setX(int x){ this.x = x; }
+    void setX(double x){
+        this.x = x;
+    }
 
-    void setY(int y) { this. y = y;}
+    void setY(double y) {
+        this.y = y;
+    }
 
     void toggleUpPressed() {
         this.UpPressed = true;
@@ -70,69 +70,67 @@ public class Tank{
         this.LeftPressed = false;
     }
 
-    void update() {
+    void update(long timeSinceLastTick) {
         if (this.UpPressed) {
-            this.moveForwards();
+            this.moveForwards(timeSinceLastTick);
         }
         if (this.DownPressed) {
-            this.moveBackwards();
+            this.moveBackwards(timeSinceLastTick);
         }
-
         if (this.LeftPressed) {
-            this.rotateLeft();
+            this.rotateLeft(timeSinceLastTick);
         }
         if (this.RightPressed) {
-            this.rotateRight();
+            this.rotateRight(timeSinceLastTick);
         }
     }
 
-    private void rotateLeft() {
-        this.angle -= this.ROTATIONSPEED;
-    }
-
-    private void rotateRight() {
-        this.angle += this.ROTATIONSPEED;
-    }
-
-    private void moveBackwards() {
-        vx = (int) Math.round(R * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
-        x -= vx;
-        y -= vy;
+    private void moveForwards(long timeSinceLastTick) {
+        double delta = timeSinceLastTick * this.MOVEMENT_SPEED;
+        this.x += delta * Math.cos(Math.toRadians(this.angle));
+        this.y += delta * Math.sin(Math.toRadians(this.angle));
         checkBorder();
     }
 
-    private void moveForwards() {
-        vx = (int) Math.round(R * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
-        x += vx;
-        y += vy;
+    private void moveBackwards(long timeSinceLastTick) {
+        this.x -= this.MOVEMENT_SPEED * Math.cos(Math.toRadians(this.angle)) * timeSinceLastTick;
+        this.y -= this.MOVEMENT_SPEED * Math.sin(Math.toRadians(this.angle)) * timeSinceLastTick;
         checkBorder();
+    }
+
+    private void rotateLeft(long timeSinceLastTick) {
+        double delta = this.ROTATION_SPEED * timeSinceLastTick;
+        this.angle -= delta;
+    }
+
+    private void rotateRight(long timeSinceLastTick) {
+        double delta = this.ROTATION_SPEED * timeSinceLastTick;
+        this.angle += delta;
     }
 
     private void checkBorder() {
-        if (x < 30) {
-            x = 30;
+        if (this.x < 30) {
+            this.x = 30;
         }
-        if (x >= GameConstants.GAME_SCREEN_WIDTH - 88) {
-            x = GameConstants.GAME_SCREEN_WIDTH - 88;
+        if (this.x >= GameConstants.GAME_SCREEN_WIDTH - 88) {
+            this.x = GameConstants.GAME_SCREEN_WIDTH - 88;
         }
-        if (y < 40) {
-            y = 40;
+        if (this.y < 40) {
+            this.y = 40;
         }
-        if (y >= GameConstants.GAME_SCREEN_HEIGHT - 80) {
-            y = GameConstants.GAME_SCREEN_HEIGHT - 80;
+        if (this.y >= GameConstants.GAME_SCREEN_HEIGHT - 80) {
+            this.y = GameConstants.GAME_SCREEN_HEIGHT - 80;
         }
     }
 
     @Override
     public String toString() {
-        return "x=" + x + ", y=" + y + ", angle=" + angle;
+        return "x=" + this.x + ", y=" + this.y + ", angle=" + this.angle;
     }
 
     void drawImage(Graphics g) {
-        AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
-        rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
+        AffineTransform rotation = AffineTransform.getTranslateInstance(this.x, this.y);
+        rotation.rotate(Math.toRadians(this.angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
     }

@@ -3,8 +3,8 @@
 
 | Student Information |                |
 |:-------------------:|----------------|
-|  Student Name       |   Name Here    |
-|  Student Email      |   Email Here   |
+|  Student Name       |   Olivier Chan Sion Moy    |
+|  Student Email      |   ochansionmoy@mail.sfsu.edu   |
 
 ## src Folder Purpose 
 src folder is to be used to store source code only.

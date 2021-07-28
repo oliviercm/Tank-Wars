@@ -127,20 +127,20 @@ public class MainWindow extends JPanel implements Runnable {
         int imageY = cameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / (2 * (this.CAMERA_ROWS))) + followObject.getImage().getHeight() / 2;
         int clampedImageX = clamp(imageX, 0, GameConstants.WORLD_WIDTH);
         int clampedImageY = clamp(imageY, 0, GameConstants.WORLD_HEIGHT);
-        int imageSizeX = clamp(GameConstants.WORLD_WIDTH - clampedImageX, 0, GameConstants.GAME_SCREEN_WIDTH / (this.CAMERA_COLUMNS));
-        int imageSizeY = clamp(GameConstants.WORLD_HEIGHT - clampedImageY, 0, GameConstants.GAME_SCREEN_HEIGHT / (this.CAMERA_ROWS));
         int imageMarginX = 0;
         if (imageX < 0) {
             imageMarginX = -imageX;
         } else if (imageX > GameConstants.WORLD_WIDTH) {
             imageMarginX = imageX;
         }
+        int imageSizeX = clamp(GameConstants.WORLD_WIDTH - clampedImageX, 0, GameConstants.GAME_SCREEN_WIDTH / (this.CAMERA_COLUMNS) - imageMarginX);
         int imageMarginY = 0;
         if (imageY < 0) {
             imageMarginY = -imageY;
         } else if (imageY > GameConstants.WORLD_HEIGHT) {
             imageMarginY = imageY;
         }
+        int imageSizeY = clamp(GameConstants.WORLD_HEIGHT - clampedImageY, 0, GameConstants.GAME_SCREEN_HEIGHT / (this.CAMERA_ROWS) - imageMarginY);
 
         if (imageSizeX > 0 && imageSizeY > 0) {
             BufferedImage cameraView = world.getSubimage(clampedImageX, clampedImageY, imageSizeX, imageSizeY);

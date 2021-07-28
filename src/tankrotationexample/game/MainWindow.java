@@ -109,7 +109,7 @@ public class MainWindow extends JPanel implements Runnable {
             buffer.setColor(Color.GRAY);
             buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
         } else {
-            buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
+            buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, this.worldBackgroundImage.getWidth(), this.worldBackgroundImage.getHeight())));
             buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
         }
 

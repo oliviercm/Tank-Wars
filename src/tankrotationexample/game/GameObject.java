@@ -30,6 +30,8 @@ public class GameObject {
     void setAngle(double angle) { this.angle = angle; }
     void addAngle(double addAngle) { this.angle += addAngle; }
 
+    BufferedImage getImage() { return this.img; }
+
     void translateForward(double distance) {
         this.addX(distance * Math.cos(Math.toRadians(this.angle)));
         this.addY(distance * Math.sin(Math.toRadians(this.angle)));

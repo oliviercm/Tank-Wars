@@ -18,6 +18,9 @@ import static javax.imageio.ImageIO.read;
  * @author olivec
  */
 public class MainWindow extends JPanel implements Runnable {
+    private final int CAMERA_COLUMNS = 2;
+    private final int CAMERA_ROWS = 1;
+
     private BufferedImage world;
     private BufferedImage worldBackgroundImage;
     private Tank t1;
@@ -72,8 +75,8 @@ public class MainWindow extends JPanel implements Runnable {
      * initial state as well.
      */
     public void gameInitialize() {
-        this.world = new BufferedImage(GameConstants.GAME_SCREEN_WIDTH,
-                                       GameConstants.GAME_SCREEN_HEIGHT,
+        this.world = new BufferedImage(GameConstants.WORLD_WIDTH,
+                                       GameConstants.WORLD_HEIGHT,
                                        BufferedImage.TYPE_INT_RGB);
 
         BufferedImage t1img = null;
@@ -97,40 +100,52 @@ public class MainWindow extends JPanel implements Runnable {
 
     @Override
     public void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        super.paintComponent(g2);
+        Graphics2D g2d = (Graphics2D) g;
+        super.paintComponent(g2d);
 
         Graphics2D buffer = world.createGraphics();
 
+//        buffer.setColor(Color.GRAY);
+//        buffer.fillRect(0,0,GameConstants.WORLD_WIDTH,GameConstants.WORLD_HEIGHT);
+
         buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
-        buffer.fillRect(0,0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+        buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
 
         this.t1.drawImage(buffer);
 
-        Point leftCameraPosition = new Point((int) this.t1.getX(), (int) this.t1.getY());
-        int leftX = clamp(leftCameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / 4), 0, GameConstants.GAME_SCREEN_WIDTH);
-        int leftY = clamp(leftCameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / 2), 0, GameConstants.GAME_SCREEN_HEIGHT);
-        int leftXSize = clamp(GameConstants.GAME_SCREEN_WIDTH - leftX, 0, GameConstants.GAME_SCREEN_WIDTH / 2);
-        int leftYSize = clamp(GameConstants.GAME_SCREEN_HEIGHT - leftY, 0, GameConstants.GAME_SCREEN_HEIGHT);
+        drawCameraView(this.t1, world, g2d, 0, 0);
+//        drawCameraView(this.t1, world, g2d, 0, 1);
 
-        Point rightCameraPosition = new Point(700, 300);
-        int rightX = clamp(rightCameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / 4), 0, GameConstants.GAME_SCREEN_WIDTH);
-        int rightY = clamp(rightCameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / 2), 0, GameConstants.GAME_SCREEN_HEIGHT);
-        int rightXSize = clamp(GameConstants.GAME_SCREEN_WIDTH - rightX, 0, GameConstants.GAME_SCREEN_WIDTH / 2);
-        int rightYSize = clamp(GameConstants.GAME_SCREEN_HEIGHT - rightY, 0, GameConstants.GAME_SCREEN_HEIGHT);
+//        BufferedImage minimap = world.getSubimage(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+//        g2d.scale(0.2, 0.2);
+//        g2d.drawImage(minimap, 200, 200, null);
+    }
 
-        BufferedImage leftHalf = world.getSubimage(
-                leftX,
-                leftY,
-                leftXSize,
-                leftYSize);
-        BufferedImage rightHalf = world.getSubimage(
-                rightX,
-                rightY,
-                rightXSize,
-                rightYSize);
-        g2.drawImage(leftHalf,0,0,null);
-        g2.drawImage(rightHalf,GameConstants.GAME_SCREEN_WIDTH / 2,0,null);
+    private void drawCameraView(GameObject followObject, BufferedImage world, Graphics2D g2d, int cameraRow, int cameraColumn) {
+        Point cameraPosition = new Point((int) followObject.getX(), (int) followObject.getY());
+        int imageX = cameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / (2 * (this.CAMERA_COLUMNS))) + followObject.getImage().getWidth() / 2;
+        int imageY = cameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / (2 * (this.CAMERA_ROWS))) + followObject.getImage().getHeight() / 2;
+        int clampedImageX = clamp(imageX, 0, GameConstants.WORLD_WIDTH);
+        int clampedImageY = clamp(imageY, 0, GameConstants.WORLD_HEIGHT);
+        int imageSizeX = clamp(GameConstants.WORLD_WIDTH - clampedImageX, 0, GameConstants.GAME_SCREEN_WIDTH / (this.CAMERA_COLUMNS));
+        int imageSizeY = clamp(GameConstants.WORLD_HEIGHT - clampedImageY, 0, GameConstants.GAME_SCREEN_HEIGHT / (this.CAMERA_ROWS));
+        int imageMarginX = 0;
+        if (imageX < 0) {
+            imageMarginX = -imageX;
+        } else if (imageX > GameConstants.WORLD_WIDTH) {
+            imageMarginX = imageX;
+        }
+        int imageMarginY = 0;
+        if (imageY < 0) {
+            imageMarginY = -imageY;
+        } else if (imageY > GameConstants.WORLD_HEIGHT) {
+            imageMarginY = imageY;
+        }
+
+        if (imageSizeX > 0 && imageSizeY > 0) {
+            BufferedImage cameraView = world.getSubimage(clampedImageX, clampedImageY, imageSizeX, imageSizeY);
+            g2d.drawImage(cameraView, cameraColumn * GameConstants.GAME_SCREEN_WIDTH / 2 + imageMarginX, cameraRow * GameConstants.GAME_SCREEN_HEIGHT / 2 + imageMarginY, null);
+        }
     }
 
     public static int clamp(int val, int min, int max) {

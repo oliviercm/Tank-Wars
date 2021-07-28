@@ -75,9 +75,7 @@ public class MainWindow extends JPanel implements Runnable {
      * initial state as well.
      */
     public void gameInitialize() {
-        this.world = new BufferedImage(GameConstants.WORLD_WIDTH,
-                                       GameConstants.WORLD_HEIGHT,
-                                       BufferedImage.TYPE_INT_RGB);
+        this.world = new BufferedImage(GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         BufferedImage t1img = null;
         try {
@@ -105,16 +103,25 @@ public class MainWindow extends JPanel implements Runnable {
 
         Graphics2D buffer = world.createGraphics();
 
-//        buffer.setColor(Color.GRAY);
-//        buffer.fillRect(0,0,GameConstants.WORLD_WIDTH,GameConstants.WORLD_HEIGHT);
-
-        buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
+        buffer.setColor(Color.GRAY);
         buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+
+//        buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
+//        buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
 
         this.t1.drawImage(buffer);
 
         drawCameraView(this.t1, world, g2d, 0, 0);
-//        drawCameraView(this.t1, world, g2d, 0, 1);
+
+        final int borderThickness = 2;
+        final Color borderColor = Color.WHITE;
+        g2d.setColor(borderColor);
+        for (int i = 0; i < this.CAMERA_COLUMNS - 1; i++) {
+            g2d.fill(new Rectangle((i + 1) * GameConstants.GAME_SCREEN_WIDTH / CAMERA_COLUMNS - borderThickness / 2, 0, borderThickness, GameConstants.GAME_SCREEN_HEIGHT));
+        }
+        for (int i = 0; i < this.CAMERA_ROWS - 1; i++) {
+            g2d.fill(new Rectangle(0, (i + 1) * GameConstants.GAME_SCREEN_HEIGHT / CAMERA_ROWS - borderThickness / 2, GameConstants.GAME_SCREEN_WIDTH, borderThickness));
+        }
 
 //        BufferedImage minimap = world.getSubimage(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
 //        g2d.scale(0.2, 0.2);

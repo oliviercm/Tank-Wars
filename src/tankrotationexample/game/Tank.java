@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
  * @author olivec
  */
 public class Tank extends GameObject {
-    private final float MOVEMENT_SPEED = 0.3f;
-    private final float ROTATION_SPEED = 0.2f;
+    private final double MOVEMENT_SPEED = 0.3f;
+    private final double ROTATION_SPEED = 0.2f;
 
     private boolean UpPressed;
     private boolean DownPressed;
@@ -72,13 +72,11 @@ public class Tank extends GameObject {
     private void moveForwards(long timeSinceLastTick) {
         double delta = this.MOVEMENT_SPEED * timeSinceLastTick;
         this.translateForward(delta);
-        checkBorder();
     }
 
     private void moveBackwards(long timeSinceLastTick) {
         double delta = -this.MOVEMENT_SPEED * timeSinceLastTick;
         this.translateForward(delta);
-        checkBorder();
     }
 
     private void rotateLeft(long timeSinceLastTick) {
@@ -89,21 +87,6 @@ public class Tank extends GameObject {
     private void rotateRight(long timeSinceLastTick) {
         double delta = this.ROTATION_SPEED * timeSinceLastTick;
         this.addAngle(delta);
-    }
-
-    private void checkBorder() {
-//        if (this.x < 30) {
-//            this.x = 30;
-//        }
-//        if (this.x >= GameConstants.GAME_SCREEN_WIDTH - 88) {
-//            this.x = GameConstants.GAME_SCREEN_WIDTH - 88;
-//        }
-//        if (this.y < 40) {
-//            this.y = 40;
-//        }
-//        if (this.y >= GameConstants.GAME_SCREEN_HEIGHT - 80) {
-//            this.y = GameConstants.GAME_SCREEN_HEIGHT - 80;
-//        }
     }
 
     @Override

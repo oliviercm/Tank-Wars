@@ -9,33 +9,17 @@ import java.awt.image.BufferedImage;
 /**
  * @author olivec
  */
-public class Tank {
-    private double x;
-    private double y;
-    private double angle;
-
+public class Tank extends GameObject {
     private final float MOVEMENT_SPEED = 0.3f;
     private final float ROTATION_SPEED = 0.2f;
 
-    private BufferedImage img;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
     private boolean LeftPressed;
 
     Tank(double x, double y, double angle, BufferedImage img) {
-        this.x = x;
-        this.y = y;
-        this.img = img;
-        this.angle = angle;
-    }
-
-    void setX(double x){
-        this.x = x;
-    }
-
-    void setY(double y) {
-        this.y = y;
+        super(x, y, angle, img);
     }
 
     void toggleUpPressed() {
@@ -86,26 +70,25 @@ public class Tank {
     }
 
     private void moveForwards(long timeSinceLastTick) {
-        double delta = timeSinceLastTick * this.MOVEMENT_SPEED;
-        this.x += delta * Math.cos(Math.toRadians(this.angle));
-        this.y += delta * Math.sin(Math.toRadians(this.angle));
+        double delta = this.MOVEMENT_SPEED * timeSinceLastTick;
+        this.translateForward(delta);
         checkBorder();
     }
 
     private void moveBackwards(long timeSinceLastTick) {
-        this.x -= this.MOVEMENT_SPEED * Math.cos(Math.toRadians(this.angle)) * timeSinceLastTick;
-        this.y -= this.MOVEMENT_SPEED * Math.sin(Math.toRadians(this.angle)) * timeSinceLastTick;
+        double delta = -this.MOVEMENT_SPEED * timeSinceLastTick;
+        this.translateForward(delta);
         checkBorder();
     }
 
     private void rotateLeft(long timeSinceLastTick) {
-        double delta = this.ROTATION_SPEED * timeSinceLastTick;
-        this.angle -= delta;
+        double delta = -this.ROTATION_SPEED * timeSinceLastTick;
+        this.addAngle(delta);
     }
 
     private void rotateRight(long timeSinceLastTick) {
         double delta = this.ROTATION_SPEED * timeSinceLastTick;
-        this.angle += delta;
+        this.addAngle(delta);
     }
 
     private void checkBorder() {
@@ -126,12 +109,5 @@ public class Tank {
     @Override
     public String toString() {
         return "x=" + this.x + ", y=" + this.y + ", angle=" + this.angle;
-    }
-
-    void drawImage(Graphics g) {
-        AffineTransform rotation = AffineTransform.getTranslateInstance(this.x, this.y);
-        rotation.rotate(Math.toRadians(this.angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(this.img, rotation, null);
     }
 }

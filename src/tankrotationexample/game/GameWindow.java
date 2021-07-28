@@ -17,13 +17,13 @@ import static javax.imageio.ImageIO.read;
  *
  * @author olivec
  */
-public class TRE extends JPanel implements Runnable {
+public class GameWindow extends JPanel implements Runnable {
     private BufferedImage world;
     private Tank t1;
     private Launcher lf;
     private long tick = 0;
 
-    public TRE(Launcher lf){
+    public GameWindow(Launcher lf){
         this.lf = lf;
     }
 
@@ -74,7 +74,7 @@ public class TRE extends JPanel implements Runnable {
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
              * current working directory.
              */
-            t1img = read(Objects.requireNonNull(TRE.class.getClassLoader().getResource("tank1.png")));
+            t1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();

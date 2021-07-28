@@ -104,7 +104,7 @@ public class MainWindow extends JPanel implements Runnable {
         Graphics2D buffer = world.createGraphics();
 
         // Draw background into buffer
-        final boolean drawFlatBackground = true;
+        final boolean drawFlatBackground = false;
         if (drawFlatBackground) {
             buffer.setColor(Color.GRAY);
             buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);

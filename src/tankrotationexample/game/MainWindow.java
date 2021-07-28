@@ -20,6 +20,7 @@ import static javax.imageio.ImageIO.read;
 public class MainWindow extends JPanel implements Runnable {
     private final int CAMERA_COLUMNS = 2;
     private final int CAMERA_ROWS = 1;
+    private final Color BackgroundColor = new Color(140, 132, 87);
 
     private BufferedImage world;
     private BufferedImage worldBackgroundImage;
@@ -101,14 +102,14 @@ public class MainWindow extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         super.paintComponent(g2d);
 
+        g2d.setColor(this.BackgroundColor);
+        g2d.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
+
         Graphics2D buffer = world.createGraphics();
 
         // Draw background into buffer
-        final boolean drawFlatBackground = false;
-        if (drawFlatBackground) {
-            buffer.setColor(Color.GRAY);
-            buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-        } else {
+        final boolean drawTexturedBackground = true;
+        if (drawTexturedBackground) {
             buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, this.worldBackgroundImage.getWidth(), this.worldBackgroundImage.getHeight())));
             buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
         }

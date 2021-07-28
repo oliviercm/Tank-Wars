@@ -103,19 +103,28 @@ public class MainWindow extends JPanel implements Runnable {
 
         Graphics2D buffer = world.createGraphics();
 
-        buffer.setColor(Color.GRAY);
-        buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+        // Draw background into buffer
+        final boolean drawFlatBackground = true;
+        if (drawFlatBackground) {
+            buffer.setColor(Color.GRAY);
+            buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+        } else {
+            buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
+            buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+        }
 
-//        buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, 320, 240)));
-//        buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-
+        // Draw all GameObjects into buffer
         this.t1.drawImage(buffer);
 
+        // Draw all split screen camera views
         drawCameraView(this.t1, world, g2d, 0, 0);
 
+        // Set colors and thickness for lines separating split screen cameras and minimap
         final int borderThickness = 2;
         final Color borderColor = Color.WHITE;
         g2d.setColor(borderColor);
+
+        // Draw borders separating split screens
         for (int i = 0; i < this.CAMERA_COLUMNS - 1; i++) {
             g2d.fill(new Rectangle((i + 1) * GameConstants.GAME_SCREEN_WIDTH / CAMERA_COLUMNS - borderThickness / 2, 0, borderThickness, GameConstants.GAME_SCREEN_HEIGHT));
         }
@@ -123,11 +132,16 @@ public class MainWindow extends JPanel implements Runnable {
             g2d.fill(new Rectangle(0, (i + 1) * GameConstants.GAME_SCREEN_HEIGHT / CAMERA_ROWS - borderThickness / 2, GameConstants.GAME_SCREEN_WIDTH, borderThickness));
         }
 
-//        BufferedImage minimap = world.getSubimage(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-//        g2d.scale(0.2, 0.2);
-//        g2d.drawImage(minimap, 200, 200, null);
+        // Draw minimap and border
+        BufferedImage minimap = world.getSubimage(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
+        final double minimapScale = 1f / 8f;
+        g2d.scale(minimapScale, minimapScale);
+        g2d.drawImage(minimap, (int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), 0, null);
+        g2d.setStroke(new BasicStroke((int) (borderThickness / minimapScale)));
+        g2d.drawRect((int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), -(int) (borderThickness / minimapScale * 2), minimap.getWidth(), minimap.getHeight() + (int) (borderThickness / minimapScale * 2));
     }
 
+    // Draws a centered "view" based on the location of a GameObject onto the passed Graphics.
     private void drawCameraView(GameObject followObject, BufferedImage world, Graphics2D g2d, int cameraRow, int cameraColumn) {
         Point cameraPosition = new Point((int) followObject.getX(), (int) followObject.getY());
         int imageX = cameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / (2 * (this.CAMERA_COLUMNS))) + followObject.getImage().getWidth() / 2;

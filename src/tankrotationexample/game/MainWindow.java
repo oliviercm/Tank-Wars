@@ -30,13 +30,13 @@ public class MainWindow extends JPanel implements Runnable {
 
     public MainWindow(Launcher lf){
         this.lf = lf;
-        this.lastTickTime = System.currentTimeMillis();
     }
 
     @Override
     public void run(){
         try {
             this.resetGame();
+            this.lastTickTime = System.currentTimeMillis();
             while (true) {
                 this.tick++;
 

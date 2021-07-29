@@ -5,13 +5,12 @@ import tankrotationexample.GameConstants;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
 
 public class GameObject {
-    private static Set<GameObject> gameObjects = Collections.newSetFromMap(new WeakHashMap<GameObject, Boolean>());
+    private static final Set<GameObject> gameObjects = Collections.newSetFromMap(new WeakHashMap<>());
     static Set<GameObject> getGameObjects() {
         return GameObject.gameObjects;
     }

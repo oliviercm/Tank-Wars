@@ -39,7 +39,7 @@ public class Launcher {
      * JFrame used to store our main panel. We will also attach all event
      * listeners to this JFrame.
      */
-    private JFrame jf;
+    private final JFrame jf;
     /*
      * CardLayout is used to manage our sub-panels. This is a layout manager
      * used for our game. It will be attached to the main panel.

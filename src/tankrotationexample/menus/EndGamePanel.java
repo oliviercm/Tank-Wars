@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public class EndGamePanel extends JPanel {
     private BufferedImage menuBackground;
-    private JButton start;
-    private JButton exit;
-    private Launcher lf;
+    private final JButton start;
+    private final JButton exit;
+    private final Launcher lf;
 
     public EndGamePanel(Launcher lf) {
         this.lf = lf;

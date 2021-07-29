@@ -7,15 +7,15 @@ import java.awt.event.KeyListener;
  * @author olivec
  */
 public class TankControl implements KeyListener {
-    private Tank t1;
+    private final Tank tank;
     private final int up;
     private final int down;
     private final int right;
     private final int left;
     private final int shoot;
 
-    public TankControl(Tank t1, int up, int down, int left, int right, int shoot) {
-        this.t1 = t1;
+    public TankControl(Tank tank, int up, int down, int left, int right, int shoot) {
+        this.tank = tank;
         this.up = up;
         this.down = down;
         this.right = right;
@@ -32,16 +32,16 @@ public class TankControl implements KeyListener {
     public void keyPressed(KeyEvent ke) {
         int keyPressed = ke.getKeyCode();
         if (keyPressed == up) {
-            this.t1.toggleUpPressed();
+            this.tank.toggleUpPressed();
         }
         if (keyPressed == down) {
-            this.t1.toggleDownPressed();
+            this.tank.toggleDownPressed();
         }
         if (keyPressed == left) {
-            this.t1.toggleLeftPressed();
+            this.tank.toggleLeftPressed();
         }
         if (keyPressed == right) {
-            this.t1.toggleRightPressed();
+            this.tank.toggleRightPressed();
         }
     }
 
@@ -49,16 +49,16 @@ public class TankControl implements KeyListener {
     public void keyReleased(KeyEvent ke) {
         int keyReleased = ke.getKeyCode();
         if (keyReleased  == up) {
-            this.t1.unToggleUpPressed();
+            this.tank.unToggleUpPressed();
         }
         if (keyReleased == down) {
-            this.t1.unToggleDownPressed();
+            this.tank.unToggleDownPressed();
         }
         if (keyReleased  == left) {
-            this.t1.unToggleLeftPressed();
+            this.tank.unToggleLeftPressed();
         }
         if (keyReleased  == right) {
-            this.t1.unToggleRightPressed();
+            this.tank.unToggleRightPressed();
         }
     }
 }

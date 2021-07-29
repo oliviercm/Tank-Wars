@@ -19,7 +19,7 @@ public class Bullet extends GameObject {
         super.update(timeSinceLastTick);
 
         this.age += timeSinceLastTick;
-        if (this.age >= 2000) {
+        if (this.age >= 5000) {
             this.destruct();
         } else {
             double delta = this.speed * timeSinceLastTick;

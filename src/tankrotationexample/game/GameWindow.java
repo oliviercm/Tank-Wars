@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -84,26 +86,53 @@ public class GameWindow extends JPanel implements Runnable {
             wall1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("wall1.png")));
             wall2img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("wall2.png")));
             this.worldBackgroundImage = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("background.png")));
+
+            InputStreamReader isr = new InputStreamReader(GameWindow.class.getClassLoader().getResourceAsStream("maps/map1"));
+            BufferedReader mapReader = new BufferedReader(isr);
+
+            String row = mapReader.readLine();
+            if (row == null) {
+                throw new IOException("Map file does not contain any data");
+            }
+            String[] mapInfo = row.split("\t");
+            int mapCols = Integer.parseInt(mapInfo[0]);
+            int mapRows = Integer.parseInt(mapInfo[1]);
+
+            for (int curRow = 0; curRow < mapRows; curRow++) {
+                row =  mapReader.readLine();
+                mapInfo = row.split("\t");
+                for (int curCol = 0; curCol < mapCols; curCol++) {
+                    switch (mapInfo[curCol]) {
+                        case "1": {
+                            new Wall(32 * curCol, 32 * curRow, 0, wall1img);
+                            break;
+                        }
+                        case "2": {
+                            new BreakableWall(32 * curCol, 32 * curRow, 0, wall2img);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                }
+            }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
         // Create player 1 and assign to camera
-        Tank tank1 = new Tank(300, 300, 0, tank1img, bulletImg);
+        Tank tank1 = new Tank(64, 800 - 24, 0, tank1img, bulletImg);
         this.cameras.add(new Camera(tank1, 0, 0));
         TankControl tc1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
 
         // Create player 2 and assign to camera
-        Tank tank2 = new Tank(1300, 300, 180, tank2img, bulletImg);
+        Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180, tank2img, bulletImg);
         this.cameras.add(new Camera(tank2, 0, 1));
         TankControl tc2 = new TankControl(tank2, KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);
-
-        new Wall(100, 100, 0, wall1img);
-
-        new BreakableWall(200, 100, 0, wall2img);
 
         this.setBackground(Color.BLACK);
     }

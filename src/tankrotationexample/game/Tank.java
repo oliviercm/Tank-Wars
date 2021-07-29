@@ -100,25 +100,13 @@ public class Tank extends GameObject implements Damageable {
     }
 
     private void moveForwards(long timeSinceLastTick) {
-        double previousX = this.x;
-        double previousY = this.y;
         double delta = this.MOVEMENT_SPEED * timeSinceLastTick;
-        this.translateForward(delta);
-        if (this.isColliding()) {
-            this.setX(previousX);
-            this.setY(previousY);
-        }
+        this.moveForward(delta);
     }
 
     private void moveBackwards(long timeSinceLastTick) {
-        double previousX = this.x;
-        double previousY = this.y;
         double delta = -this.MOVEMENT_SPEED * timeSinceLastTick;
-        this.translateForward(delta);
-        if (this.isColliding()) {
-            this.setX(previousX);
-            this.setY(previousY);
-        }
+        this.moveForward(delta);
     }
 
     private void rotateLeft(long timeSinceLastTick) {
@@ -129,15 +117,6 @@ public class Tank extends GameObject implements Damageable {
     private void rotateRight(long timeSinceLastTick) {
         double delta = this.ROTATION_SPEED * timeSinceLastTick;
         this.addAngle(delta);
-    }
-
-    private boolean isColliding() {
-        for (GameObject go : this.getIntersectingObjects()) {
-            if (go.getSolid()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public int getHealth() {

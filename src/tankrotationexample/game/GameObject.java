@@ -71,6 +71,21 @@ public class GameObject {
         this.addY(distance * Math.sin(Math.toRadians(this.angle)));
     }
 
+    // Acts like translateForward, but implements sliding against other objects such as walls instead of moving inside them
+    void moveForward(double distance) {
+        double prevX = this.x;
+        this.addX(distance * Math.cos(Math.toRadians(this.angle)));
+        if (this.isColliding()) {
+            this.setX(prevX);
+        }
+
+        double prevY = this.y;
+        this.addY(distance * Math.sin(Math.toRadians(this.angle)));
+        if (this.isColliding()) {
+            this.setY(prevY);
+        }
+    }
+
     void drawImage(Graphics g) {
         AffineTransform rotation = AffineTransform.getTranslateInstance(this.x, this.y);
         rotation.rotate(Math.toRadians(this.angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
@@ -115,6 +130,15 @@ public class GameObject {
             }
         }
         return intersecting;
+    }
+
+    private boolean isColliding() {
+        for (GameObject go : this.getIntersectingObjects()) {
+            if (go.getSolid()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

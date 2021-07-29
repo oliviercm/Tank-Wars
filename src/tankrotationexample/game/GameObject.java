@@ -6,9 +6,10 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameObject {
-    private static final HashSet<GameObject> gameObjects = new HashSet();
+    private static final Set<GameObject> gameObjects = Collections.newSetFromMap(new ConcurrentHashMap<>());
     static GameObject[] getGameObjects() {
         return GameObject.gameObjects.toArray(new GameObject[0]);
     }

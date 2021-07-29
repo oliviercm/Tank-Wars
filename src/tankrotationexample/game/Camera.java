@@ -1,10 +1,11 @@
 package tankrotationexample.game;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Camera {
-    private static final HashSet<Camera> cameras = new HashSet();
+    private static final Set<Camera> cameras = Collections.newSetFromMap(new ConcurrentHashMap<>());
     static Camera[] getCameras() {
         return Camera.cameras.toArray(new Camera[0]);
     }

@@ -131,7 +131,7 @@ public class GameWindow extends JPanel implements Runnable {
         // Create player 2 and assign to camera
         Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180, tank2img, bulletImg);
         this.cameras.add(new Camera(tank2, 0, 1));
-        TankControl tc2 = new TankControl(tank2, KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_ENTER);
+        TankControl tc2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);
 
         this.setBackground(Color.BLACK);

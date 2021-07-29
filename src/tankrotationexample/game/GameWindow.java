@@ -75,41 +75,7 @@ public class GameWindow extends JPanel implements Runnable {
         ResourceHandler.loadImageResource("wall1", "wall1.png");
         ResourceHandler.loadImageResource("wall2", "wall2.png");
 
-        try {
-            InputStreamReader isr = new InputStreamReader(GameWindow.class.getClassLoader().getResourceAsStream("maps/map1"));
-            BufferedReader mapReader = new BufferedReader(isr);
-
-            String row = mapReader.readLine();
-            if (row == null) {
-                throw new IOException("Map file does not contain any data");
-            }
-            String[] mapInfo = row.split("\t");
-            int mapCols = Integer.parseInt(mapInfo[0]);
-            int mapRows = Integer.parseInt(mapInfo[1]);
-
-            for (int curRow = 0; curRow < mapRows; curRow++) {
-                row =  mapReader.readLine();
-                mapInfo = row.split("\t");
-                for (int curCol = 0; curCol < mapCols; curCol++) {
-                    switch (mapInfo[curCol]) {
-                        case "1": {
-                            new Wall(32 * curCol, 32 * curRow, 0, ResourceHandler.getImageResource("wall1"));
-                            break;
-                        }
-                        case "2": {
-                            new BreakableWall(32 * curCol, 32 * curRow, 0, ResourceHandler.getImageResource("wall2"));
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
-                    }
-                }
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-        }
+        MapLoader.loadMap("maps/map1");
 
         // Create player 1 and assign to camera
         Tank tank1 = new Tank(64, 800 - 24, 0, ResourceHandler.getImageResource("tank1"), ResourceHandler.getImageResource("bullet"));

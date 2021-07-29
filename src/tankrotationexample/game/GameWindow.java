@@ -68,15 +68,17 @@ public class GameWindow extends JPanel implements Runnable {
     public void gameInitialize() {
         this.world = new BufferedImage(GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-        BufferedImage t1img = null;
-        BufferedImage bullet = null;
+        BufferedImage tank1img = null;
+        BufferedImage tank2img = null;
+        BufferedImage bulletImg = null;
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
              * current working directory.
              */
-            t1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
-            bullet = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("bullet.png")));
+            tank1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
+            tank2img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank2.png")));
+            bulletImg = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("bullet1.png")));
             this.worldBackgroundImage = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("background.png")));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -84,12 +86,18 @@ public class GameWindow extends JPanel implements Runnable {
         }
 
         // Create player 1 and assign to camera
-        Tank tank = new Tank(300, 300, 0, t1img, bullet);
-        this.cameras.add(new Camera(tank, 0, 0));
-        TankControl tc = new TankControl(tank, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+        Tank tank1 = new Tank(300, 300, 0, tank1img, bulletImg);
+        this.cameras.add(new Camera(tank1, 0, 0));
+        TankControl tc1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
+        this.lf.getJf().addKeyListener(tc1);
+
+        // Create player 2 and assign to camera
+        Tank tank2 = new Tank(1300, 300, 180, tank2img, bulletImg);
+        this.cameras.add(new Camera(tank2, 0, 1));
+        TankControl tc2 = new TankControl(tank2, KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_ENTER);
+        this.lf.getJf().addKeyListener(tc2);
 
         this.setBackground(Color.BLACK);
-        this.lf.getJf().addKeyListener(tc);
     }
 
     @Override

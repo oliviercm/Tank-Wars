@@ -21,6 +21,7 @@ public class GameObject {
     protected double angle;
     private int bbx;
     private int bby;
+    private boolean isSolid = true; // Whether this object blocks the movement of other objects
 
     protected BufferedImage img;
 
@@ -51,7 +52,8 @@ public class GameObject {
     void setAngle(double angle) { this.angle = angle; }
     void addAngle(double addAngle) { this.angle += addAngle; }
 
-    Point getBoundingBoxSize() { return new Point(this.bbx, this.bby); };
+    boolean getSolid() { return this.isSolid; }
+    void setSolid(boolean solid) { this.isSolid = solid; }
 
     void update(long timeSinceLastTick) {
         return;
@@ -103,6 +105,16 @@ public class GameObject {
     protected void autoSetSquareBoundingBox() {
         int bbs = Math.max(img.getWidth(), img.getHeight());
         this.setBoundingBox(bbs, bbs);
+    }
+
+    ArrayList<GameObject> getIntersectingObjects() {
+        ArrayList<GameObject> intersecting = new ArrayList<>();
+        for (GameObject go : GameObject.getGameObjects()) {
+            if (go != this && this.getBoundingBox().intersects(go.getBoundingBox())) {
+                intersecting.add(go);
+            }
+        }
+        return intersecting;
     }
 
     @Override

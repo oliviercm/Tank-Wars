@@ -2,6 +2,7 @@ package tankrotationexample.game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * @author olivec
@@ -76,26 +77,38 @@ public class Tank extends DamageableObject {
         Bullet bullet = new Bullet(this.x, this.y, this.getAngle(), this.bulletImage);
 
         final int bulletBBSize = 16;
-        bullet.setBoundingBox(bulletBBSize, bulletBBSize);
-
         Point tankCenter = this.getBBCenter();
         Point bulletBBOrigin = new Point(tankCenter.x - this.bulletImage.getWidth() / 2, tankCenter.y - this.bulletImage.getHeight() / 2);
+
+        bullet.setBoundingBox(bulletBBSize, bulletBBSize);
         bullet.setX(bulletBBOrigin.x);
         bullet.setY(bulletBBOrigin.y);
-
         bullet.setSpeed(0.5);
         bullet.setOwner(this);
+        bullet.setSolid(false);
         return;
     }
 
     private void moveForwards(long timeSinceLastTick) {
+        double previousX = this.x;
+        double previousY = this.y;
         double delta = this.MOVEMENT_SPEED * timeSinceLastTick;
         this.translateForward(delta);
+        if (this.isColliding()) {
+            this.setX(previousX);
+            this.setY(previousY);
+        }
     }
 
     private void moveBackwards(long timeSinceLastTick) {
+        double previousX = this.x;
+        double previousY = this.y;
         double delta = -this.MOVEMENT_SPEED * timeSinceLastTick;
         this.translateForward(delta);
+        if (this.isColliding()) {
+            this.setX(previousX);
+            this.setY(previousY);
+        }
     }
 
     private void rotateLeft(long timeSinceLastTick) {
@@ -106,6 +119,15 @@ public class Tank extends DamageableObject {
     private void rotateRight(long timeSinceLastTick) {
         double delta = this.ROTATION_SPEED * timeSinceLastTick;
         this.addAngle(delta);
+    }
+
+    private boolean isColliding() {
+        for (GameObject go : this.getIntersectingObjects()) {
+            if (go.getSolid()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

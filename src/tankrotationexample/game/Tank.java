@@ -1,5 +1,6 @@
 package tankrotationexample.game;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -15,8 +16,11 @@ public class Tank extends DamageableObject {
     private boolean RightPressed;
     private boolean LeftPressed;
 
-    Tank(double x, double y, double angle, BufferedImage img) {
+    private BufferedImage bulletImage;
+
+    Tank(double x, double y, double angle, BufferedImage img, BufferedImage bullet) {
         super(x, y, angle, img, Tank.TANK_HEALTH);
+        this.bulletImage = bullet;
         this.autoSetSquareBoundingBox();
     }
 
@@ -66,6 +70,22 @@ public class Tank extends DamageableObject {
         if (this.RightPressed) {
             this.rotateRight(timeSinceLastTick);
         }
+    }
+
+    void shoot() {
+        Bullet bullet = new Bullet(this.x, this.y, this.getAngle(), this.bulletImage);
+
+        final int bulletBBSize = 16;
+        bullet.setBoundingBox(bulletBBSize, bulletBBSize);
+
+        Point tankCenter = this.getBBCenter();
+        Point bulletBBOrigin = new Point(tankCenter.x - this.bulletImage.getWidth() / 2, tankCenter.y - this.bulletImage.getHeight() / 2);
+        bullet.setX(bulletBBOrigin.x);
+        bullet.setY(bulletBBOrigin.y);
+
+        bullet.setSpeed(0.5);
+        bullet.setOwner(this);
+        return;
     }
 
     private void moveForwards(long timeSinceLastTick) {

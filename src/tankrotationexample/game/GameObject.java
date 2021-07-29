@@ -51,6 +51,8 @@ public class GameObject {
     void setAngle(double angle) { this.angle = angle; }
     void addAngle(double addAngle) { this.angle += addAngle; }
 
+    Point getBoundingBoxSize() { return new Point(this.bbx, this.bby); };
+
     void update(long timeSinceLastTick) {
         return;
     }
@@ -80,11 +82,21 @@ public class GameObject {
         }
     }
 
+    // Returns a point at the center of the GameObject's bounding box
+    Point getBBCenter() {
+        Point boundingBoxOrigin = this.getBoundingBoxOrigin();
+        return new Point(boundingBoxOrigin.x + this.bbx / 2, boundingBoxOrigin.y + this.bby / 2);
+    }
+
+    // Returns the origin of the bounding box's origin (top left corner) based on the GameObject's image
+    Point getBoundingBoxOrigin() {
+        return new Point((int) (this.x + ((this.img.getWidth() - this.bbx) / 2)), (int) (this.y + ((this.img.getHeight() - this.bby) / 2)));
+    }
+
     // Returns a Rectangle sized on the GameObject's bounding box parameters, centered around the GameObject's image
     Rectangle getCenteredBoundingBox() {
-        int bbxOrigin = (int) (this.x + ((this.img.getWidth() - this.bbx) / 2));
-        int bbyOrigin = (int) (this.y + ((this.img.getHeight() - this.bby) / 2));
-        return new Rectangle(bbxOrigin, bbyOrigin, this.bbx, this.bby);
+        Point boundingBoxOrigin = this.getBoundingBoxOrigin();
+        return new Rectangle(boundingBoxOrigin.x, boundingBoxOrigin.y, this.bbx, this.bby);
     }
 
     // Automatically set bounding box size to a square based on the GameObject's image

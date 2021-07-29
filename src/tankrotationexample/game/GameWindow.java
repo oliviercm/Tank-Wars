@@ -41,7 +41,8 @@ public class GameWindow extends JPanel implements Runnable {
                 long timeSinceLastTick = currentTime - this.lastTickTime;
                 this.lastTickTime = currentTime;
 
-                for (GameObject go : GameObject.getGameObjects()) {
+                GameObject[] gameObjects = GameObject.getGameObjects().toArray(new GameObject[0]);
+                for (GameObject go : gameObjects) {
                     go.update(timeSinceLastTick);
                 }
 
@@ -69,12 +70,14 @@ public class GameWindow extends JPanel implements Runnable {
         this.world = new BufferedImage(GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         BufferedImage t1img = null;
+        BufferedImage bullet = null;
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
              * current working directory.
              */
             t1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
+            bullet = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("bullet.png")));
             this.worldBackgroundImage = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("background.png")));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -82,7 +85,7 @@ public class GameWindow extends JPanel implements Runnable {
         }
 
         // Create player 1 and assign to camera
-        Tank tank = new Tank(300, 300, 0, t1img);
+        Tank tank = new Tank(300, 300, 0, t1img, bullet);
         this.cameras.add(new Camera(tank, 0, 0));
         TankControl tc = new TankControl(tank, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
 

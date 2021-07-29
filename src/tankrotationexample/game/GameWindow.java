@@ -17,7 +17,7 @@ import static javax.imageio.ImageIO.read;
  *
  * @author olivec
  */
-public class MainWindow extends JPanel implements Runnable {
+public class GameWindow extends JPanel implements Runnable {
     private final int CAMERA_COLUMNS = 2;
     private final int CAMERA_ROWS = 1;
     private final Color BackgroundColor = new Color(140, 132, 87);
@@ -29,7 +29,7 @@ public class MainWindow extends JPanel implements Runnable {
     private long tick = 0;
     private long lastTickTime;
 
-    public MainWindow(Launcher lf){
+    public GameWindow(Launcher lf){
         this.lf = lf;
     }
 
@@ -84,8 +84,8 @@ public class MainWindow extends JPanel implements Runnable {
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
              * current working directory.
              */
-            t1img = read(Objects.requireNonNull(MainWindow.class.getClassLoader().getResource("tank1.png")));
-            this.worldBackgroundImage = read(Objects.requireNonNull(MainWindow.class.getClassLoader().getResource("background.png")));
+            t1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
+            this.worldBackgroundImage = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("background.png")));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();

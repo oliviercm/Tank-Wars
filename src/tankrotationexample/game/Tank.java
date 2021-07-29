@@ -20,6 +20,7 @@ public class Tank extends GameObject {
 
     Tank(double x, double y, double angle, BufferedImage img) {
         super(x, y, angle, img);
+        this.autoSetSquareBoundingBox();
     }
 
     void toggleUpPressed() {

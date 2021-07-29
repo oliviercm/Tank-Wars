@@ -1,13 +1,23 @@
 package tankrotationexample.game;
 
+import tankrotationexample.GameConstants;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.lang.ref.WeakReference;
+import java.util.Collections;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 public class GameObject {
+    private static Set<GameObject> gameObjects = Collections.newSetFromMap(new WeakHashMap<GameObject, Boolean>());
+
     protected double x;
     protected double y;
     protected double angle;
+    private int bbx;
+    private int bby;
 
     protected BufferedImage img;
 
@@ -16,6 +26,25 @@ public class GameObject {
         this.y = y;
         this.angle = angle;
         this.img = img;
+        this.bbx = img.getWidth();
+        this.bby = img.getHeight();
+
+        GameObject.gameObjects.add(this);
+    }
+
+    GameObject(double x, double y, double angle, BufferedImage img, int bbx, int bby) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.img = img;
+        this.bbx = bbx;
+        this.bby = bby;
+
+        GameObject.gameObjects.add(this);
+    }
+
+    static Set<GameObject> getGameObjects() {
+        return GameObject.gameObjects;
     }
 
     double getX() { return this.x; }
@@ -30,6 +59,11 @@ public class GameObject {
     void setAngle(double angle) { this.angle = angle; }
     void addAngle(double addAngle) { this.angle += addAngle; }
 
+    void setBoundingBox(int bbx, int bby) {
+        this.bbx = bbx;
+        this.bby = bby;
+    }
+
     BufferedImage getImage() { return this.img; }
 
     void translateForward(double distance) {
@@ -42,6 +76,25 @@ public class GameObject {
         rotation.rotate(Math.toRadians(this.angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
+
+        // Draw centered bounding box if debug mode
+        if (GameConstants.DEBUG_MODE) {
+            g2d.setColor(new Color(255, 0, 255));
+            g2d.draw(this.getCenteredBoundingBox());
+        }
+    }
+
+    // Returns a Rectangle sized on the GameObject's bounding box parameters, centered around the GameObject's image
+    Rectangle getCenteredBoundingBox() {
+        int bbxOrigin = (int) (this.x + ((this.img.getWidth() - this.bbx) / 2));
+        int bbyOrigin = (int) (this.y + ((this.img.getHeight() - this.bby) / 2));
+        return new Rectangle(bbxOrigin, bbyOrigin, this.bbx, this.bby);
+    }
+
+    // Automatically set bounding box size to a square based on the GameObject's image
+    protected void autoSetSquareBoundingBox() {
+        int bbs = Math.max(img.getWidth(), img.getHeight());
+        this.setBoundingBox(bbs, bbs);
     }
 
     @Override

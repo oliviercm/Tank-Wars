@@ -113,12 +113,14 @@ public class GameWindow extends JPanel implements Runnable {
         }
 
         // Draw all GameObjects into buffer
-        for (GameObject go : GameObject.getGameObjects()) {
+        GameObject[] gameObjects = GameObject.getGameObjects().toArray(new GameObject[0]);
+        for (GameObject go : gameObjects) {
             go.drawImage(buffer);
         }
 
         // Draw all split screen camera views
-        for (Camera cam : Camera.getCameras()) {
+        Camera[] cameras = Camera.getCameras().toArray(new Camera[0]);
+        for (Camera cam : cameras) {
             drawCameraView(cam.getFollowObject(), world, g2d, cam.getCameraX(), cam.getCameraY());
         }
 

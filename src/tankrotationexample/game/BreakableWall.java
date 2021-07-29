@@ -7,7 +7,7 @@ public class BreakableWall extends Wall implements Damageable {
 
     BreakableWall(double x, double y, double angle, BufferedImage img) {
         super(x, y, angle, img);
-        this.health = 50;
+        this.health = 75;
     }
 
     public int getHealth() {

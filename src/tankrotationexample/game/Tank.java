@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author olivec
  */
 public class Tank extends GameObject implements Damageable {
-    private final double MOVEMENT_SPEED = 0.3f;
+    private final double MOVEMENT_SPEED = 0.25f;
     private final double ROTATION_SPEED = 0.2f;
     private final int MAX_TANK_HEALTH = 100;
 

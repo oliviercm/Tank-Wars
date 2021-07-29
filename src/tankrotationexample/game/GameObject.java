@@ -78,7 +78,7 @@ public class GameObject {
         // Draw centered bounding box if debug mode
         if (GameConstants.DEBUG_MODE) {
             g2d.setColor(new Color(255, 0, 255));
-            g2d.draw(this.getCenteredBoundingBox());
+            g2d.draw(this.getBoundingBox());
         }
     }
 
@@ -94,7 +94,7 @@ public class GameObject {
     }
 
     // Returns a Rectangle sized on the GameObject's bounding box parameters, centered around the GameObject's image
-    Rectangle getCenteredBoundingBox() {
+    Rectangle getBoundingBox() {
         Point boundingBoxOrigin = this.getBoundingBoxOrigin();
         return new Rectangle(boundingBoxOrigin.x, boundingBoxOrigin.y, this.bbx, this.bby);
     }

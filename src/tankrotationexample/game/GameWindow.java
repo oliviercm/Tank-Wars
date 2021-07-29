@@ -150,11 +150,8 @@ public class GameWindow extends JPanel implements Runnable {
         Graphics2D buffer = world.createGraphics();
 
         // Draw background into buffer
-        final boolean drawTexturedBackground = true;
-        if (drawTexturedBackground) {
-            buffer.setPaint(new TexturePaint(this.worldBackgroundImage, new Rectangle(0, 0, this.worldBackgroundImage.getWidth(), this.worldBackgroundImage.getHeight())));
-            buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-        }
+        buffer.setColor(this.worldBackgroundColor);
+        buffer.fillRect(0,0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
 
         // Draw all GameObjects into buffer
         for (GameObject go : GameObject.getGameObjects()) {

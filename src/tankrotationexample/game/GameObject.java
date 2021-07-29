@@ -12,6 +12,9 @@ import java.util.WeakHashMap;
 
 public class GameObject {
     private static Set<GameObject> gameObjects = Collections.newSetFromMap(new WeakHashMap<GameObject, Boolean>());
+    static Set<GameObject> getGameObjects() {
+        return GameObject.gameObjects;
+    }
 
     protected double x;
     protected double y;
@@ -43,10 +46,6 @@ public class GameObject {
         GameObject.gameObjects.add(this);
     }
 
-    static Set<GameObject> getGameObjects() {
-        return GameObject.gameObjects;
-    }
-
     double getX() { return this.x; }
     void setX(double x) { this.x = x; }
     void addX(double addX) { this.x += addX; }
@@ -58,6 +57,10 @@ public class GameObject {
     double getAngle() { return this.angle; }
     void setAngle(double angle) { this.angle = angle; }
     void addAngle(double addAngle) { this.angle += addAngle; }
+
+    void update(long timeSinceLastTick) {
+        return;
+    }
 
     void setBoundingBox(int bbx, int bby) {
         this.bbx = bbx;

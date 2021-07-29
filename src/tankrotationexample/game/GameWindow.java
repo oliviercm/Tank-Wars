@@ -45,7 +45,10 @@ public class GameWindow extends JPanel implements Runnable {
                 long timeSinceLastTick = currentTime - this.lastTickTime;
                 this.lastTickTime = currentTime;
 
-                this.t1.update(timeSinceLastTick); // update tank
+                for (GameObject go : GameObject.getGameObjects()) {
+                    go.update(timeSinceLastTick);
+                }
+
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
                 /*
@@ -67,8 +70,6 @@ public class GameWindow extends JPanel implements Runnable {
      */
     public void resetGame(){
         this.tick = 0;
-        this.t1.setX(300);
-        this.t1.setY(300);
     }
 
     /**
@@ -91,10 +92,10 @@ public class GameWindow extends JPanel implements Runnable {
             ex.printStackTrace();
         }
 
-        t1 = new Tank(300, 300, 0, t1img);
-        TankControl tc1 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+        this.t1 = new Tank(300, 300, 0, t1img);
+        TankControl tc = new TankControl(this.t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.setBackground(Color.BLACK);
-        this.lf.getJf().addKeyListener(tc1);
+        this.lf.getJf().addKeyListener(tc);
     }
 
     @Override
@@ -115,7 +116,9 @@ public class GameWindow extends JPanel implements Runnable {
         }
 
         // Draw all GameObjects into buffer
-        this.t1.drawImage(buffer);
+        for (GameObject go : GameObject.getGameObjects()) {
+            go.drawImage(buffer);
+        }
 
         // Draw all split screen camera views
         drawCameraView(this.t1, world, g2d, 0, 0);

@@ -56,6 +56,7 @@ public class Tank extends GameObject {
     }
 
     void update(long timeSinceLastTick) {
+        super.update(timeSinceLastTick);
         if (this.UpPressed) {
             this.moveForwards(timeSinceLastTick);
         }

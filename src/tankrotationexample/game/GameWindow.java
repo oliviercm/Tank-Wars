@@ -71,6 +71,8 @@ public class GameWindow extends JPanel implements Runnable {
         BufferedImage tank1img = null;
         BufferedImage tank2img = null;
         BufferedImage bulletImg = null;
+        BufferedImage wall1img = null;
+        BufferedImage wall2img = null;
         try {
             /*
              * note class loaders read files from the out folder (build folder in Netbeans) and not the
@@ -79,6 +81,8 @@ public class GameWindow extends JPanel implements Runnable {
             tank1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
             tank2img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank2.png")));
             bulletImg = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("bullet1.png")));
+            wall1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("wall1.png")));
+            wall2img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("wall2.png")));
             this.worldBackgroundImage = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("background.png")));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

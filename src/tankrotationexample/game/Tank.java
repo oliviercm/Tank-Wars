@@ -7,10 +7,12 @@ import java.util.ArrayList;
 /**
  * @author olivec
  */
-public class Tank extends DamageableObject {
+public class Tank extends GameObject implements Damageable {
     private final double MOVEMENT_SPEED = 0.3f;
     private final double ROTATION_SPEED = 0.2f;
-    static protected final int TANK_HEALTH = 100;
+    private final int MAX_TANK_HEALTH = 100;
+
+    private int health;
 
     private boolean UpPressed;
     private boolean DownPressed;
@@ -20,7 +22,7 @@ public class Tank extends DamageableObject {
     private BufferedImage bulletImage;
 
     Tank(double x, double y, double angle, BufferedImage img, BufferedImage bullet) {
-        super(x, y, angle, img, Tank.TANK_HEALTH);
+        super(x, y, angle, img);
         this.bulletImage = bullet;
         this.autoSetSquareBoundingBox();
     }
@@ -128,6 +130,25 @@ public class Tank extends DamageableObject {
             }
         }
         return false;
+    }
+
+    public int getHealth() {
+        return this.health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void takeDamage(int damage) {
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.onDeath();
+        }
+    }
+
+    private void onDeath() {
+        this.destruct();
     }
 
     @Override

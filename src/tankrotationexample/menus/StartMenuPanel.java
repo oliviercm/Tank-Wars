@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class StartMenuPanel extends JPanel {
-
     private BufferedImage menuBackground;
     private final JButton start;
     private final JButton exit;

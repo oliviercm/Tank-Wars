@@ -5,14 +5,15 @@ import tankrotationexample.GameConstants;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.Collections;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 
 public class GameObject {
-    private static final Set<GameObject> gameObjects = Collections.newSetFromMap(new WeakHashMap<>());
+    private static final HashSet<GameObject> gameObjects = new HashSet();
     static Set<GameObject> getGameObjects() {
         return GameObject.gameObjects;
+    }
+    static void destroy(GameObject o) {
+        GameObject.gameObjects.remove(o);
     }
 
     protected double x;
@@ -59,6 +60,10 @@ public class GameObject {
 
     void update(long timeSinceLastTick) {
         return;
+    }
+
+    void destroy() {
+        GameObject.gameObjects.remove(this);
     }
 
     void setBoundingBox(int bbx, int bby) {

@@ -18,15 +18,13 @@ import static javax.imageio.ImageIO.read;
  * @author olivec
  */
 public class GameWindow extends JPanel implements Runnable {
-    private final ArrayList<Tank> players = new ArrayList<>();
     private final ArrayList<Camera> cameras = new ArrayList<>();
-
     private final int CAMERA_COLUMNS = 2;
     private final int CAMERA_ROWS = 1;
-    private final Color BackgroundColor = new Color(140, 132, 87);
 
     private BufferedImage world;
     private BufferedImage worldBackgroundImage;
+    private final Color worldBackgroundColor = new Color(140, 132, 87);
     private final Launcher lf;
     private long lastTickTime;
 
@@ -83,9 +81,11 @@ public class GameWindow extends JPanel implements Runnable {
             ex.printStackTrace();
         }
 
-        this.players.add(new Tank(300, 300, 0, t1img));
-        this.cameras.add(new Camera(this.players.get(0), 0, 0));
-        TankControl tc = new TankControl(this.players.get(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+        // Create player 1 and assign to camera
+        Tank tank = new Tank(300, 300, 0, t1img);
+        this.cameras.add(new Camera(tank, 0, 0));
+        TankControl tc = new TankControl(tank, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+
         this.setBackground(Color.BLACK);
         this.lf.getJf().addKeyListener(tc);
     }
@@ -96,7 +96,7 @@ public class GameWindow extends JPanel implements Runnable {
         super.paintComponent(g2d);
 
         // Fill the entire screen with a flat background color
-        g2d.setColor(this.BackgroundColor);
+        g2d.setColor(this.worldBackgroundColor);
         g2d.fillRect(0, 0, GameConstants.GAME_SCREEN_WIDTH, GameConstants.GAME_SCREEN_HEIGHT);
 
         // Create a temporary buffer to draw graphics onto

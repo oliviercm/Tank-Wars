@@ -1,13 +1,15 @@
 package tankrotationexample.game;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 public class Camera {
-    private static final Set<Camera> cameras = Collections.newSetFromMap(new WeakHashMap<>());
+    private static final HashSet<Camera> cameras = new HashSet();
     static Set<Camera> getCameras() {
         return Camera.cameras;
+    }
+    static void destroy(Camera o) {
+        Camera.cameras.remove(o);
     }
 
     private final GameObject followObject;
@@ -20,6 +22,10 @@ public class Camera {
         this.cameraY = cameraY;
 
         Camera.cameras.add(this);
+    }
+
+    void destroy() {
+        Camera.cameras.remove(this);
     }
 
     GameObject getFollowObject() {

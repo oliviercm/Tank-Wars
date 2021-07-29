@@ -1,17 +1,14 @@
 package tankrotationexample.game;
 
-import tankrotationexample.GameConstants;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
  * @author olivec
  */
-public class Tank extends GameObject {
+public class Tank extends DamageableObject {
     private final double MOVEMENT_SPEED = 0.3f;
     private final double ROTATION_SPEED = 0.2f;
+    static protected final int TANK_HEALTH = 100;
 
     private boolean UpPressed;
     private boolean DownPressed;
@@ -19,7 +16,7 @@ public class Tank extends GameObject {
     private boolean LeftPressed;
 
     Tank(double x, double y, double angle, BufferedImage img) {
-        super(x, y, angle, img);
+        super(x, y, angle, img, Tank.TANK_HEALTH);
         this.autoSetSquareBoundingBox();
     }
 

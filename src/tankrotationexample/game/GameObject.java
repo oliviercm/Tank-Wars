@@ -35,18 +35,7 @@ public class GameObject {
         GameObject.gameObjects.add(this);
     }
 
-    GameObject(double x, double y, double angle, BufferedImage img, int bbx, int bby) {
-        this.x = x;
-        this.y = y;
-        this.angle = angle;
-        this.img = img;
-        this.bbx = bbx;
-        this.bby = bby;
-
-        GameObject.gameObjects.add(this);
-    }
-
-    final void destroy() {
+    final void destruct() {
         GameObject.gameObjects.remove(this);
     }
 

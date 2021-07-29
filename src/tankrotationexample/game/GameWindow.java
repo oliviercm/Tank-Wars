@@ -25,7 +25,6 @@ public class GameWindow extends JPanel implements Runnable {
     private final int CAMERA_ROWS = 1;
 
     private BufferedImage world;
-    private BufferedImage worldBackgroundImage;
     private final Color worldBackgroundColor = new Color(140, 132, 87);
     private final Launcher lf;
     private long lastTickTime;
@@ -70,23 +69,13 @@ public class GameWindow extends JPanel implements Runnable {
     public void gameInitialize() {
         this.world = new BufferedImage(GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-        BufferedImage tank1img = null;
-        BufferedImage tank2img = null;
-        BufferedImage bulletImg = null;
-        BufferedImage wall1img = null;
-        BufferedImage wall2img = null;
-        try {
-            /*
-             * note class loaders read files from the out folder (build folder in Netbeans) and not the
-             * current working directory.
-             */
-            tank1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank1.png")));
-            tank2img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("tank2.png")));
-            bulletImg = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("bullet1.png")));
-            wall1img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("wall1.png")));
-            wall2img = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("wall2.png")));
-            this.worldBackgroundImage = read(Objects.requireNonNull(GameWindow.class.getClassLoader().getResource("background.png")));
+        ResourceHandler.loadImageResource("tank1", "tank1.png");
+        ResourceHandler.loadImageResource("tank2", "tank2.png");
+        ResourceHandler.loadImageResource("bullet", "bullet1.png");
+        ResourceHandler.loadImageResource("wall1", "wall1.png");
+        ResourceHandler.loadImageResource("wall2", "wall2.png");
 
+        try {
             InputStreamReader isr = new InputStreamReader(GameWindow.class.getClassLoader().getResourceAsStream("maps/map1"));
             BufferedReader mapReader = new BufferedReader(isr);
 
@@ -104,11 +93,11 @@ public class GameWindow extends JPanel implements Runnable {
                 for (int curCol = 0; curCol < mapCols; curCol++) {
                     switch (mapInfo[curCol]) {
                         case "1": {
-                            new Wall(32 * curCol, 32 * curRow, 0, wall1img);
+                            new Wall(32 * curCol, 32 * curRow, 0, ResourceHandler.getImageResource("wall1"));
                             break;
                         }
                         case "2": {
-                            new BreakableWall(32 * curCol, 32 * curRow, 0, wall2img);
+                            new BreakableWall(32 * curCol, 32 * curRow, 0, ResourceHandler.getImageResource("wall2"));
                             break;
                         }
                         default: {
@@ -123,13 +112,13 @@ public class GameWindow extends JPanel implements Runnable {
         }
 
         // Create player 1 and assign to camera
-        Tank tank1 = new Tank(64, 800 - 24, 0, tank1img, bulletImg);
+        Tank tank1 = new Tank(64, 800 - 24, 0, ResourceHandler.getImageResource("tank1"), ResourceHandler.getImageResource("bullet"));
         this.cameras.add(new Camera(tank1, 0, 0));
         TankControl tc1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
 
         // Create player 2 and assign to camera
-        Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180, tank2img, bulletImg);
+        Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180, ResourceHandler.getImageResource("tank2"), ResourceHandler.getImageResource("bullet"));
         this.cameras.add(new Camera(tank2, 0, 1));
         TankControl tc2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);

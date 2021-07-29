@@ -12,7 +12,7 @@ public class GameObject {
     static Set<GameObject> getGameObjects() {
         return GameObject.gameObjects;
     }
-    static void destroy(GameObject o) {
+    static final void destroy(GameObject o) {
         GameObject.gameObjects.remove(o);
     }
 
@@ -46,6 +46,10 @@ public class GameObject {
         GameObject.gameObjects.add(this);
     }
 
+    final void destroy() {
+        GameObject.gameObjects.remove(this);
+    }
+
     double getX() { return this.x; }
     void setX(double x) { this.x = x; }
     void addX(double addX) { this.x += addX; }
@@ -60,10 +64,6 @@ public class GameObject {
 
     void update(long timeSinceLastTick) {
         return;
-    }
-
-    void destroy() {
-        GameObject.gameObjects.remove(this);
     }
 
     void setBoundingBox(int bbx, int bby) {

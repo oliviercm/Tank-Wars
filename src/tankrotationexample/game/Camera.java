@@ -8,7 +8,7 @@ public class Camera {
     static Set<Camera> getCameras() {
         return Camera.cameras;
     }
-    static void destroy(Camera o) {
+    static final void destroy(Camera o) {
         Camera.cameras.remove(o);
     }
 

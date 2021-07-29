@@ -25,6 +25,7 @@ public class Tank extends GameObject implements Damageable {
         super(x, y, angle, img);
         this.bulletImage = bullet;
         this.autoSetSquareBoundingBox();
+        this.health = this.MAX_TANK_HEALTH;
     }
 
     void toggleUpPressed() {
@@ -60,6 +61,9 @@ public class Tank extends GameObject implements Damageable {
     }
 
     void update(long timeSinceLastTick) {
+        if (this.isDead()) {
+            return;
+        }
         super.update(timeSinceLastTick);
         if (this.UpPressed) {
             this.moveForwards(timeSinceLastTick);
@@ -76,6 +80,10 @@ public class Tank extends GameObject implements Damageable {
     }
 
     void shoot() {
+        if (this.isDead()) {
+            return;
+        }
+
         Bullet bullet = new Bullet(this.x, this.y, this.getAngle(), this.bulletImage);
 
         final int bulletBBSize = 16;
@@ -142,13 +150,13 @@ public class Tank extends GameObject implements Damageable {
 
     public void takeDamage(int damage) {
         this.health -= damage;
-        if (this.health <= 0) {
-            this.onDeath();
+        if (this.isDead()) {
+            this.destruct();
         }
     }
 
-    private void onDeath() {
-        this.destruct();
+    public boolean isDead() {
+        return this.health <= 0;
     }
 
     @Override

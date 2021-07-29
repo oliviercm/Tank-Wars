@@ -6,9 +6,11 @@ public class Bullet extends GameObject {
     private double speed;
     private GameObject owner;
     private int age = 0;
+    private int damage;
 
     Bullet(double x, double y, double angle, BufferedImage img) {
         super(x, y, angle, img);
+        this.damage = 25;
     }
 
     void setSpeed(double speed) { this.speed = speed; }
@@ -22,6 +24,16 @@ public class Bullet extends GameObject {
         } else {
             double delta = this.speed * timeSinceLastTick;
             this.translateForward(delta);
+        }
+
+        for (GameObject go : this.getIntersectingObjects()) {
+            if (go != this.owner) {
+                if (go instanceof Damageable) {
+                    ((Damageable) go).takeDamage(this.damage);
+                }
+                this.destruct();
+                break;
+            }
         }
     }
 

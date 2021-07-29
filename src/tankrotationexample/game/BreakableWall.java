@@ -21,11 +21,7 @@ public class BreakableWall extends Wall implements Damageable {
     public void takeDamage(int damage) {
         this.health -= damage;
         if (this.health <= 0) {
-            this.onDeath();
+            this.destruct();
         }
-    }
-
-    private void onDeath() {
-        this.destruct();
     }
 }

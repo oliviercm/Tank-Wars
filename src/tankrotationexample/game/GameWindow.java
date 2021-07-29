@@ -101,6 +101,10 @@ public class GameWindow extends JPanel implements Runnable {
         TankControl tc2 = new TankControl(tank2, KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_J, KeyEvent.VK_L, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);
 
+        new Wall(100, 100, 0, wall1img);
+
+        new BreakableWall(200, 100, 0, wall2img);
+
         this.setBackground(Color.BLACK);
     }
 

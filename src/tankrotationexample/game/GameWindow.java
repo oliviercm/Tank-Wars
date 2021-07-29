@@ -38,7 +38,6 @@ public class GameWindow extends JPanel implements Runnable {
     public void run(){
         try {
             this.resetGame();
-            this.lastTickTime = System.currentTimeMillis();
             while (true) {
                 long currentTime = System.currentTimeMillis();
                 long timeSinceLastTick = currentTime - this.lastTickTime;
@@ -59,7 +58,8 @@ public class GameWindow extends JPanel implements Runnable {
     /**
      * Reset game to its initial state.
      */
-    public void resetGame(){
+    public void resetGame() {
+        this.lastTickTime = System.currentTimeMillis();
         return;
     }
 

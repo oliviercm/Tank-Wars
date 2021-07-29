@@ -138,6 +138,7 @@ public class GameWindow extends JPanel implements Runnable {
         g2d.drawImage(minimap, (int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), 0, null);
         g2d.setStroke(new BasicStroke((int) (borderThickness / minimapScale)));
         g2d.drawRect((int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), -(int) (borderThickness / minimapScale * 2), minimap.getWidth(), minimap.getHeight() + (int) (borderThickness / minimapScale * 2));
+        g2d.scale(1 / minimapScale, 1 / minimapScale);
     }
 
     // Draws a centered "view" based on the location of a GameObject onto the passed Graphics.

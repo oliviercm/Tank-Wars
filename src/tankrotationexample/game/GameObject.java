@@ -9,8 +9,8 @@ import java.util.*;
 
 public class GameObject {
     private static final HashSet<GameObject> gameObjects = new HashSet();
-    static Set<GameObject> getGameObjects() {
-        return GameObject.gameObjects;
+    static GameObject[] getGameObjects() {
+        return GameObject.gameObjects.toArray(new GameObject[0]);
     }
     static final void destroy(GameObject o) {
         GameObject.gameObjects.remove(o);

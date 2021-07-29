@@ -41,8 +41,7 @@ public class GameWindow extends JPanel implements Runnable {
                 long timeSinceLastTick = currentTime - this.lastTickTime;
                 this.lastTickTime = currentTime;
 
-                GameObject[] gameObjects = GameObject.getGameObjects().toArray(new GameObject[0]);
-                for (GameObject go : gameObjects) {
+                for (GameObject go : GameObject.getGameObjects()) {
                     go.update(timeSinceLastTick);
                 }
 
@@ -113,14 +112,12 @@ public class GameWindow extends JPanel implements Runnable {
         }
 
         // Draw all GameObjects into buffer
-        GameObject[] gameObjects = GameObject.getGameObjects().toArray(new GameObject[0]);
-        for (GameObject go : gameObjects) {
+        for (GameObject go : GameObject.getGameObjects()) {
             go.drawImage(buffer);
         }
 
         // Draw all split screen camera views
-        Camera[] cameras = Camera.getCameras().toArray(new Camera[0]);
-        for (Camera cam : cameras) {
+        for (Camera cam : Camera.getCameras()) {
             drawCameraView(cam.getFollowObject(), world, g2d, cam.getCameraX(), cam.getCameraY());
         }
 

@@ -5,8 +5,8 @@ import java.util.Set;
 
 public class Camera {
     private static final HashSet<Camera> cameras = new HashSet();
-    static Set<Camera> getCameras() {
-        return Camera.cameras;
+    static Camera[] getCameras() {
+        return Camera.cameras.toArray(new Camera[0]);
     }
     static final void destroy(Camera o) {
         Camera.cameras.remove(o);

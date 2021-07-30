@@ -39,6 +39,9 @@ public class Hud {
     }
 
     private static void drawPlayerHealth(Graphics2D g2d, Tank player, int side) {
+        if (player.isDead()) {
+            return;
+        }
         int offset = 0;
         switch (side) {
             case 0: {

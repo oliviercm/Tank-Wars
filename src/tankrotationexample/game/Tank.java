@@ -2,6 +2,8 @@ package tankrotationexample.game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author olivec
@@ -16,6 +18,7 @@ public class Tank extends GameObject implements Damageable {
     private final double spawnSpeed;
     private int health;
     private int lives;
+    private boolean gameOver = false;
     private double movementSpeed = 0.25f;
     private int shootCooldown = 0;
 
@@ -197,7 +200,7 @@ public class Tank extends GameObject implements Damageable {
     }
 
     public boolean takeDamage(int damage) {
-        if (this.hasInvulnerability()) {
+        if (this.hasInvulnerability() || this.isDead()) {
             return false;
         }
         if (this.hasShield()) {
@@ -207,9 +210,21 @@ public class Tank extends GameObject implements Damageable {
         this.health -= damage;
         if (this.isDead()) {
             if (this.lives > 0) {
-                this.respawn();
+                Tank that = this;
+                this.setSolid(false);
+                new Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                that.respawn();
+                                return;
+                            }
+                        },
+                        1500
+                );
                 this.lives--;
             } else {
+                this.gameOver = true;
                 this.destruct();
             }
         }
@@ -225,6 +240,7 @@ public class Tank extends GameObject implements Damageable {
     }
 
     private void respawn() {
+        this.setSolid(true);
         this.setX(this.spawnX);
         this.setY(this.spawnY);
         this.setAngle(this.spawnAngle);
@@ -241,6 +257,10 @@ public class Tank extends GameObject implements Damageable {
     }
 
     void drawImage(Graphics g) {
+        if (this.isDead()) {
+            return;
+        }
+
         if (this.hasInvulnerability()) {
             final int flickerDuration = 200;
             if (this.invulnerableDuration % flickerDuration < flickerDuration / 2) {
@@ -291,6 +311,10 @@ public class Tank extends GameObject implements Damageable {
 
     int getLives() {
         return this.lives;
+    }
+
+    boolean getGameOver() {
+        return this.gameOver;
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author olivec
  */
 public class GameWindow extends JPanel implements Runnable {
+    private ArrayList<Tank> tanks = new ArrayList<>();
     private final ArrayList<Camera> cameras = new ArrayList<>();
     private final int CAMERA_COLUMNS = 2;
     private final int CAMERA_ROWS = 1;
@@ -23,14 +24,14 @@ public class GameWindow extends JPanel implements Runnable {
     private final Launcher lf;
     private long lastTickTime;
 
-    public GameWindow(Launcher lf){
+    public GameWindow(Launcher lf) {
         this.lf = lf;
     }
 
     @Override
-    public void run(){
+    public void run() {
         try {
-            this.resetGame();
+            this.lastTickTime = System.currentTimeMillis();
             while (true) {
                 long currentTime = System.currentTimeMillis();
                 long timeSinceLastTick = currentTime - this.lastTickTime;
@@ -42,18 +43,17 @@ public class GameWindow extends JPanel implements Runnable {
 
                 this.repaint();   // redraw game
                 Thread.sleep(1000 / 144); //sleep for a few milliseconds
+
+                for (Tank tank : this.tanks) {
+                    if (tank.getGameOver()) {
+                        this.lf.setFrame("end");
+                        return;
+                    }
+                }
             }
         } catch (InterruptedException ignored) {
             System.out.println(ignored);
         }
-    }
-
-    /**
-     * Reset game to its initial state.
-     */
-    public void resetGame() {
-        this.lastTickTime = System.currentTimeMillis();
-        return;
     }
 
     /**
@@ -90,6 +90,7 @@ public class GameWindow extends JPanel implements Runnable {
                 ResourceHandler.getImageResource("tank1transparent"),
                 ResourceHandler.getImageResource("bullet"),
                 ResourceHandler.getImageResource("shield1"));
+        this.tanks.add(tank1);
         this.cameras.add(new Camera(tank1, 0, 0));
         TankControl tc1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
@@ -100,6 +101,7 @@ public class GameWindow extends JPanel implements Runnable {
                 ResourceHandler.getImageResource("tank2transparent"),
                 ResourceHandler.getImageResource("bullet"),
                 ResourceHandler.getImageResource("shield2"));
+        this.tanks.add(tank2);
         this.cameras.add(new Camera(tank2, 0, 1));
         TankControl tc2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);

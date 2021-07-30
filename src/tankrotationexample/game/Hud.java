@@ -14,10 +14,28 @@ public class Hud {
         this.rightPlayer = rightPlayer;
     }
 
-    public void drawImage(Graphics2D g2d) {
+    // Draw world space elements (healthbars)
+    public void drawWorld(Graphics2D g2d) {
         // Draw player health bars
         Hud.drawPlayerHealth(g2d, this.leftPlayer, 0);
         Hud.drawPlayerHealth(g2d, this.rightPlayer, 1);
+    }
+
+    // Draw screen space elements (lives)
+    public void drawScreen(Graphics2D g2d) {
+        this.drawLives(g2d, leftPlayer, 0);
+        this.drawLives(g2d, rightPlayer, 1);
+    }
+
+    private void drawLives(Graphics2D g2d, Tank tank, int side) {
+        BufferedImage tankImage = tank.getImage();
+        for (int i = 0; i < tank.getLives(); i++) {
+            g2d.drawImage(
+                    tankImage,
+                    (side * GameConstants.GAME_SCREEN_WIDTH / 2) + 16 + (tankImage.getWidth() + 8) * i,
+                    GameConstants.GAME_SCREEN_HEIGHT - tankImage.getHeight() * 2 - 8,
+                    null);
+        }
     }
 
     private static void drawPlayerHealth(Graphics2D g2d, Tank player, int side) {

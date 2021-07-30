@@ -289,6 +289,10 @@ public class Tank extends GameObject implements Damageable {
         return this.speedDuration > 0;
     }
 
+    int getLives() {
+        return this.lives;
+    }
+
     @Override
     public String toString() {
         return "x=" + this.x + ", y=" + this.y + ", angle=" + this.angle;

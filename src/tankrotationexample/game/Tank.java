@@ -260,6 +260,9 @@ public class Tank extends GameObject implements Damageable {
         this.shieldDuration = 0;
         this.speedDuration = 0;
         this.movementSpeed = this.spawnSpeed;
+        while (!this.getIntersectingObjects().isEmpty()) {
+            this.setY(this.getY() + 1);
+        }
     }
 
     public boolean isDead() {

@@ -67,8 +67,8 @@ public class GameWindow extends JPanel implements Runnable {
         ResourceHandler.loadImageResource("tankexplosion", "largeexplosion_strip.png");
         ResourceHandler.loadImageResource("bullet", "bullet1.png");
         ResourceHandler.loadImageResource("bulletexplosion", "smallexplosion_strip.png");
-        ResourceHandler.loadImageResource("wall1", "Wall1.png");
-        ResourceHandler.loadImageResource("wall2", "Wall2.png");
+        ResourceHandler.loadImageResource("wall1", "wall1.png");
+        ResourceHandler.loadImageResource("wall2", "wall2.png");
         ResourceHandler.loadImageResource("health100", "health100.png");
         ResourceHandler.loadImageResource("health75", "health75.png");
         ResourceHandler.loadImageResource("health50", "health50.png");
@@ -155,7 +155,7 @@ public class GameWindow extends JPanel implements Runnable {
 
         // Draw minimap and border
         BufferedImage minimap = world.getSubimage(0, 0, GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT);
-        final double minimapScale = 1f / 8f;
+        final double minimapScale = 1f / 6f;
         g2d.scale(minimapScale, minimapScale);
         g2d.drawImage(minimap, (int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), 0, null);
         g2d.setStroke(new BasicStroke((int) (borderThickness / minimapScale)));

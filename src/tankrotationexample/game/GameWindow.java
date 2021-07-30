@@ -24,6 +24,7 @@ public class GameWindow extends JPanel implements Runnable {
     private final int CAMERA_COLUMNS = 2;
     private final int CAMERA_ROWS = 1;
 
+    private Hud hud;
     private BufferedImage world;
     private final Color worldBackgroundColor = new Color(140, 132, 87);
     private final Launcher lf;
@@ -74,6 +75,11 @@ public class GameWindow extends JPanel implements Runnable {
         ResourceHandler.loadImageResource("bullet", "bullet1.png");
         ResourceHandler.loadImageResource("wall1", "wall1.png");
         ResourceHandler.loadImageResource("wall2", "wall2.png");
+        ResourceHandler.loadImageResource("health100", "health100.png");
+        ResourceHandler.loadImageResource("health75", "health75.png");
+        ResourceHandler.loadImageResource("health50", "health50.png");
+        ResourceHandler.loadImageResource("health25", "health25.png");
+        ResourceHandler.loadImageResource("health0", "health0.png");
 
         MapLoader.loadMap("maps/map1");
 
@@ -88,6 +94,9 @@ public class GameWindow extends JPanel implements Runnable {
         this.cameras.add(new Camera(tank2, 0, 1));
         TankControl tc2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);
+
+        // Create Hud handler
+        this.hud = new Hud(tank1, tank2);
 
         this.setBackground(Color.BLACK);
     }
@@ -139,6 +148,9 @@ public class GameWindow extends JPanel implements Runnable {
         g2d.setStroke(new BasicStroke((int) (borderThickness / minimapScale)));
         g2d.drawRect((int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), -(int) (borderThickness / minimapScale * 2), minimap.getWidth(), minimap.getHeight() + (int) (borderThickness / minimapScale * 2));
         g2d.scale(1 / minimapScale, 1 / minimapScale);
+
+        // Draw HUD
+        this.hud.drawImage(g2d);
     }
 
     // Draws a centered "view" based on the location of a GameObject onto the passed Graphics.

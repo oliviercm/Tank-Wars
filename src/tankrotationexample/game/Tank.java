@@ -51,7 +51,7 @@ public class Tank extends GameObject implements Damageable {
         this.autoSetSquareBoundingBox();
         this.health = this.MAX_TANK_HEALTH;
         this.invulnerableDuration = 4000;
-        this.lives = 3;
+        this.lives = 5;
     }
 
     void toggleUpPressed() {
@@ -146,7 +146,7 @@ public class Tank extends GameObject implements Damageable {
             this.createBullet(shotgunSpread);
         }
 
-        this.shootCooldown = 300;
+        this.shootCooldown = 400;
 
         return;
     }

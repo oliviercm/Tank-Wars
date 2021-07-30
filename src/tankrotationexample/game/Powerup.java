@@ -67,7 +67,7 @@ public class Powerup extends GameObject {
                 throw new IllegalStateException("Unexpected value: " + type);
         }
         this.active = false;
-        this.respawnTime = 30000;
+        this.respawnTime = 60000;
     }
 
     void drawImage(Graphics g) {

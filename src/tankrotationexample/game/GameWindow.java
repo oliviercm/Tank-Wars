@@ -64,7 +64,9 @@ public class GameWindow extends JPanel implements Runnable {
         this.world = new BufferedImage(GameConstants.WORLD_WIDTH, GameConstants.WORLD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         ResourceHandler.loadImageResource("tank1", "tank1.png");
+        ResourceHandler.loadImageResource("tank1transparent", "tank1transparent.png");
         ResourceHandler.loadImageResource("tank2", "tank2.png");
+        ResourceHandler.loadImageResource("tank2transparent", "tank2transparent.png");
         ResourceHandler.loadImageResource("bullet", "bullet1.png");
         ResourceHandler.loadImageResource("wall1", "wall1.png");
         ResourceHandler.loadImageResource("wall2", "wall2.png");
@@ -81,6 +83,7 @@ public class GameWindow extends JPanel implements Runnable {
         // Create player 1 and assign to camera
         Tank tank1 = new Tank(64, 800 - 24, 0,
                 ResourceHandler.getImageResource("tank1"),
+                ResourceHandler.getImageResource("tank1transparent"),
                 ResourceHandler.getImageResource("bullet"),
                 ResourceHandler.getImageResource("shield1"));
         this.cameras.add(new Camera(tank1, 0, 0));
@@ -90,6 +93,7 @@ public class GameWindow extends JPanel implements Runnable {
         // Create player 2 and assign to camera
         Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180,
                 ResourceHandler.getImageResource("tank2"),
+                ResourceHandler.getImageResource("tank2transparent"),
                 ResourceHandler.getImageResource("bullet"),
                 ResourceHandler.getImageResource("shield2"));
         this.cameras.add(new Camera(tank2, 0, 1));

@@ -18,10 +18,11 @@ public class BreakableWall extends Wall implements Damageable {
         this.health = health;
     }
 
-    public void takeDamage(int damage) {
+    public boolean takeDamage(int damage) {
         this.health -= damage;
         if (this.health <= 0) {
             this.destruct();
         }
+        return true;
     }
 }

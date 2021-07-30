@@ -29,10 +29,12 @@ public class Bullet extends GameObject {
         for (GameObject go : this.getIntersectingObjects()) {
             if (go != this.owner) {
                 if (go instanceof Damageable) {
-                    ((Damageable) go).takeDamage(this.damage);
+                    boolean tookDamage = ((Damageable) go).takeDamage(this.damage);
+                    if (tookDamage) {
+                        this.destruct();
+                        break;
+                    }
                 }
-                this.destruct();
-                break;
             }
         }
     }

@@ -48,7 +48,7 @@ public class Powerup extends GameObject {
         }
         switch (this.type) {
             case SHIELD:
-                tank.setShieldDuration(600000);
+                tank.setShieldDuration(10000);
                 break;
             case SHOTGUN:
                 tank.setShotgunDuration(10000);

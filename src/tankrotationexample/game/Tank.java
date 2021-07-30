@@ -203,6 +203,7 @@ public class Tank extends GameObject implements Damageable {
             return false;
         }
         if (this.hasShield()) {
+            this.shieldDuration -= 1000;
             return true;
         }
         this.health -= damage;

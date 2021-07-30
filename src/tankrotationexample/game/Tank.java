@@ -19,10 +19,14 @@ public class Tank extends GameObject implements Damageable {
     private boolean LeftPressed;
 
     private BufferedImage bulletImage;
+    private BufferedImage shieldImage;
 
-    Tank(double x, double y, double angle, BufferedImage img, BufferedImage bullet) {
+    private int shieldDuration = 0;
+
+    Tank(double x, double y, double angle, BufferedImage img, BufferedImage bullet, BufferedImage shield) {
         super(x, y, angle, img);
         this.bulletImage = bullet;
+        this.shieldImage = shield;
         this.autoSetSquareBoundingBox();
         this.health = this.MAX_TANK_HEALTH;
     }
@@ -135,6 +139,20 @@ public class Tank extends GameObject implements Damageable {
 
     public boolean isDead() {
         return this.health <= 0;
+    }
+
+    void drawImage(Graphics g) {
+        super.drawImage(g);
+
+        // Draw shield graphics
+        if (this.hasShield()) {
+            Point center = this.getBBCenter();
+            g.drawImage(this.shieldImage, (int) (center.x - this.shieldImage.getWidth() / 2), (int) (center.y - this.shieldImage.getHeight() / 2), null);
+        }
+    }
+
+    boolean hasShield() {
+        return this.shieldDuration > 0;
     }
 
     @Override

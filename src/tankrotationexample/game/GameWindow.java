@@ -7,16 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Objects;
-
-import static javax.imageio.ImageIO.read;
 
 /**
- *
  * @author olivec
  */
 public class GameWindow extends JPanel implements Runnable {
@@ -80,17 +73,25 @@ public class GameWindow extends JPanel implements Runnable {
         ResourceHandler.loadImageResource("health50", "health50.png");
         ResourceHandler.loadImageResource("health25", "health25.png");
         ResourceHandler.loadImageResource("health0", "health0.png");
+        ResourceHandler.loadImageResource("shield1", "shield1.png");
+        ResourceHandler.loadImageResource("shield2", "shield2.png");
 
         MapLoader.loadMap("maps/map1");
 
         // Create player 1 and assign to camera
-        Tank tank1 = new Tank(64, 800 - 24, 0, ResourceHandler.getImageResource("tank1"), ResourceHandler.getImageResource("bullet"));
+        Tank tank1 = new Tank(64, 800 - 24, 0,
+                ResourceHandler.getImageResource("tank1"),
+                ResourceHandler.getImageResource("bullet"),
+                ResourceHandler.getImageResource("shield1"));
         this.cameras.add(new Camera(tank1, 0, 0));
         TankControl tc1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
         this.lf.getJf().addKeyListener(tc1);
 
         // Create player 2 and assign to camera
-        Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180, ResourceHandler.getImageResource("tank2"), ResourceHandler.getImageResource("bullet"));
+        Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180,
+                ResourceHandler.getImageResource("tank2"),
+                ResourceHandler.getImageResource("bullet"),
+                ResourceHandler.getImageResource("shield2"));
         this.cameras.add(new Camera(tank2, 0, 1));
         TankControl tc2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
         this.lf.getJf().addKeyListener(tc2);

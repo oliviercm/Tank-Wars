@@ -34,6 +34,9 @@ public class Bullet extends GameObject {
                         this.destruct();
                         break;
                     }
+                } else if (go.getSolid()) {
+                    this.destruct();
+                    break;
                 }
             }
         }

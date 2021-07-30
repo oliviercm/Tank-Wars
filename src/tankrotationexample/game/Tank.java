@@ -29,6 +29,8 @@ public class Tank extends GameObject implements Damageable {
 
     private int shieldDuration = 0;
     private int invulnerableDuration = 0;
+    private int shotgunDuration = 0;
+
 
     Tank(double x, double y, double angle, BufferedImage tankImg, BufferedImage tankTransparentImg, BufferedImage bullet, BufferedImage shield) {
         super(x, y, angle, tankImg);
@@ -103,7 +105,19 @@ public class Tank extends GameObject implements Damageable {
             return;
         }
 
-        Bullet bullet = new Bullet(this.x, this.y, this.getAngle(), this.bulletImage);
+        this.createBullet(0);
+
+        if (this.hasShotgun()) {
+            final int shotgunSpread = 25;
+            this.createBullet(-shotgunSpread);
+            this.createBullet(shotgunSpread);
+        }
+
+        return;
+    }
+
+    void createBullet(int offsetAngle) {
+        Bullet bullet = new Bullet(this.x, this.y, this.getAngle() + offsetAngle, this.bulletImage);
 
         final int bulletBBSize = 16;
         Point tankCenter = this.getBBCenter();
@@ -201,6 +215,10 @@ public class Tank extends GameObject implements Damageable {
 
     boolean hasInvulnerability() {
         return this.invulnerableDuration > 0;
+    }
+
+    boolean hasShotgun() {
+        return this.shotgunDuration > 0;
     }
 
     @Override

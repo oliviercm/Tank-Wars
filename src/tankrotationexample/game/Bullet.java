@@ -31,15 +31,20 @@ public class Bullet extends GameObject {
                 if (go instanceof Damageable) {
                     boolean tookDamage = ((Damageable) go).takeDamage(this.damage);
                     if (tookDamage) {
-                        this.destruct();
+                        this.afterHit();
                         break;
                     }
                 } else if (go.getSolid()) {
-                    this.destruct();
+                    this.afterHit();
                     break;
                 }
             }
         }
+    }
+
+    void afterHit() {
+        new Animation(this.x, this.y, 0, ResourceHandler.getImageResource("bulletexplosion"), 6, 30);
+        this.destruct();
     }
 
     void setOwner(GameObject go) {

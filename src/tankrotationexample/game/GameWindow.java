@@ -67,7 +67,9 @@ public class GameWindow extends JPanel implements Runnable {
         ResourceHandler.loadImageResource("tank1transparent", "tank1transparent.png");
         ResourceHandler.loadImageResource("tank2", "tank2.png");
         ResourceHandler.loadImageResource("tank2transparent", "tank2transparent.png");
+        ResourceHandler.loadImageResource("tankexplosion", "largeexplosion_strip.png");
         ResourceHandler.loadImageResource("bullet", "bullet1.png");
+        ResourceHandler.loadImageResource("bulletexplosion", "smallexplosion_strip.png");
         ResourceHandler.loadImageResource("wall1", "wall1.png");
         ResourceHandler.loadImageResource("wall2", "wall2.png");
         ResourceHandler.loadImageResource("health100", "health100.png");

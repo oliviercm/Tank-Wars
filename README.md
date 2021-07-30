@@ -46,12 +46,12 @@ Instructions for IntelliJ:
 
 ## Steps to Build your Project:
 Instructions for IntelliJ:
-1. Follow all instructions from [Steps to Import project into IDE](# Steps to Import project into IDE:)
+1. Follow all instructions from [Steps to Import project into IDE](#steps-to-import-project-into-ide)
 2. Press Alt+F9 to build the project.
  
 ## Steps to run your Project:
 Instructions for IntelliJ:
-1. Follow all instructions from [Steps to Import project into IDE](# Steps to Import project into IDE:)
+1. Follow all instructions from [Steps to Import project into IDE](#steps-to-import-project-into-ide)
 2. Right-click [/src/tankrotationexample/Launcher](/src/tankrotationexample/Launcher.java) and select "Run".
 3. Alternatively, run the .jar file in [/jar](/jar).
 

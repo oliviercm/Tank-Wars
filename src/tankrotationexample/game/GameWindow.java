@@ -30,29 +30,26 @@ public class GameWindow extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        try {
-            this.lastTickTime = System.currentTimeMillis();
-            while (true) {
-                long currentTime = System.currentTimeMillis();
-                long timeSinceLastTick = currentTime - this.lastTickTime;
-                this.lastTickTime = currentTime;
+        this.lastTickTime = System.currentTimeMillis();
+        while (true) {
+            long currentTime = System.currentTimeMillis();
+            long timeSinceLastTick = currentTime - this.lastTickTime;
+            this.lastTickTime = currentTime;
 
-                for (GameObject go : GameObject.getGameObjects()) {
-                    go.update(timeSinceLastTick);
-                }
+            // Run update on all GameObjects
+            for (GameObject go : GameObject.getGameObjects()) {
+                go.update(timeSinceLastTick);
+            }
 
-                this.repaint();   // redraw game
-                Thread.sleep(1000 / 144); //sleep for a few milliseconds
+            this.repaint(); // redraw game
 
-                for (Tank tank : this.tanks) {
-                    if (tank.getGameOver()) {
-                        this.lf.setFrame("end");
-                        return;
-                    }
+            // Check for game over condition
+            for (Tank tank : this.tanks) {
+                if (tank.getGameOver()) {
+                    this.lf.setFrame("end");
+                    return;
                 }
             }
-        } catch (InterruptedException ignored) {
-            System.out.println(ignored);
         }
     }
 

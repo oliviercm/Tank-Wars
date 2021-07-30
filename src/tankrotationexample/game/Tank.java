@@ -3,7 +3,6 @@ package tankrotationexample.game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * @author olivec
@@ -51,7 +50,7 @@ public class Tank extends GameObject implements Damageable {
         this.autoSetSquareBoundingBox();
         this.health = this.MAX_TANK_HEALTH;
         this.invulnerableDuration = 4000;
-        this.lives = 5;
+        this.lives = 3;
     }
 
     void toggleUpPressed() {
@@ -107,7 +106,7 @@ public class Tank extends GameObject implements Damageable {
         this.shootCooldown = (int) (Math.max(0, this.shootCooldown - timeSinceLastTick));
 
         if (this.hasSpeed()) {
-            this.movementSpeed = this.spawnSpeed * 1.5;
+            this.movementSpeed = this.spawnSpeed * 1.3;
         } else {
             this.movementSpeed = this.spawnSpeed;
         }
@@ -256,7 +255,7 @@ public class Tank extends GameObject implements Damageable {
         this.setY(this.spawnY);
         this.setAngle(this.spawnAngle);
         this.setHealth(this.MAX_TANK_HEALTH);
-        this.invulnerableDuration = 3000;
+        this.invulnerableDuration = 4000;
         this.shotgunDuration = 0;
         this.shieldDuration = 0;
         this.speedDuration = 0;

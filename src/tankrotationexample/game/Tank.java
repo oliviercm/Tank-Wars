@@ -17,11 +17,13 @@ public class Tank extends GameObject implements Damageable {
     private int health;
     private int lives;
     private double movementSpeed = 0.25f;
+    private int shootCooldown = 0;
 
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
     private boolean LeftPressed;
+    private boolean ShootPressed;
 
     private BufferedImage tankImage;
     private BufferedImage tankTransparentImage;
@@ -65,6 +67,10 @@ public class Tank extends GameObject implements Damageable {
         this.LeftPressed = true;
     }
 
+    void toggleShootPressed() {
+        this.ShootPressed = true;
+    }
+
     void unToggleUpPressed() {
         this.UpPressed = false;
     }
@@ -81,6 +87,10 @@ public class Tank extends GameObject implements Damageable {
         this.LeftPressed = false;
     }
 
+    void unToggleShootPressed() {
+        this.ShootPressed = false;
+    }
+
     void update(long timeSinceLastTick) {
         if (this.isDead()) {
             return;
@@ -91,6 +101,7 @@ public class Tank extends GameObject implements Damageable {
         this.shieldDuration = (int) (Math.max(0, this.shieldDuration - timeSinceLastTick));
         this.shotgunDuration = (int) (Math.max(0, this.shotgunDuration - timeSinceLastTick));
         this.speedDuration = (int) (Math.max(0, this.speedDuration - timeSinceLastTick));
+        this.shootCooldown = (int) (Math.max(0, this.shootCooldown - timeSinceLastTick));
 
         if (this.hasSpeed()) {
             this.movementSpeed = this.spawnSpeed * 1.5;
@@ -110,11 +121,17 @@ public class Tank extends GameObject implements Damageable {
         if (this.RightPressed) {
             this.rotateRight(timeSinceLastTick);
         }
+        if (this.ShootPressed) {
+            this.shoot();
+        }
         this.pickupPowerups();
     }
 
     void shoot() {
         if (this.isDead()) {
+            return;
+        }
+        if (this.shootCooldown > 0) {
             return;
         }
 
@@ -125,6 +142,8 @@ public class Tank extends GameObject implements Damageable {
             this.createBullet(-shotgunSpread);
             this.createBullet(shotgunSpread);
         }
+
+        this.shootCooldown = 300;
 
         return;
     }
@@ -213,6 +232,7 @@ public class Tank extends GameObject implements Damageable {
         this.invulnerableDuration = 3000;
         this.shotgunDuration = 0;
         this.shieldDuration = 0;
+        this.speedDuration = 0;
         this.movementSpeed = this.spawnSpeed;
     }
 

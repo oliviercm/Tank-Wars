@@ -45,23 +45,27 @@ public class TankControl implements KeyListener {
         }
         if (keyPressed == shoot) {
             this.tank.shoot();
+            this.tank.toggleShootPressed();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
         int keyReleased = ke.getKeyCode();
-        if (keyReleased  == up) {
+        if (keyReleased == up) {
             this.tank.unToggleUpPressed();
         }
         if (keyReleased == down) {
             this.tank.unToggleDownPressed();
         }
-        if (keyReleased  == left) {
+        if (keyReleased == left) {
             this.tank.unToggleLeftPressed();
         }
-        if (keyReleased  == right) {
+        if (keyReleased == right) {
             this.tank.unToggleRightPressed();
+        }
+        if (keyReleased == shoot) {
+            this.tank.unToggleShootPressed();
         }
     }
 }

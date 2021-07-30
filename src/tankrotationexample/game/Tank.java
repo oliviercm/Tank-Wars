@@ -89,6 +89,7 @@ public class Tank extends GameObject implements Damageable {
 
         this.invulnerableDuration = (int) (Math.max(0, this.invulnerableDuration - timeSinceLastTick));
         this.shieldDuration = (int) (Math.max(0, this.shieldDuration - timeSinceLastTick));
+        this.shotgunDuration = (int) (Math.max(0, this.shotgunDuration - timeSinceLastTick));
         this.speedDuration = (int) (Math.max(0, this.speedDuration - timeSinceLastTick));
 
         if (this.hasSpeed()) {

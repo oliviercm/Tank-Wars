@@ -1,10 +1,12 @@
 package tankrotationexample.game;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Powerup extends GameObject {
     private final PowerupType type;
     private boolean active;
+    private int respawnTime = 0;
 
     Powerup(double x, double y, PowerupType type) {
         super(x, y, 0);
@@ -32,13 +34,24 @@ public class Powerup extends GameObject {
         this.autoSetSquareBoundingBox();
     }
 
+    public void update(long timeSinceLastTick) {
+        super.update(timeSinceLastTick);
+        this.respawnTime = (int) (Math.max(0, this.respawnTime - timeSinceLastTick));
+        if (this.respawnTime > 0) {
+            System.out.println(this.respawnTime);
+        }
+        if (!this.active && this.respawnTime <= 0) {
+            this.active = true;
+        }
+    }
+
     public void activate(Tank tank) {
         if (!this.active) {
             return;
         }
         switch (this.type) {
             case SHIELD:
-                tank.setShieldDuration(10000);
+                tank.setShieldDuration(600000);
                 break;
             case SHOTGUN:
                 tank.setShotgunDuration(10000);
@@ -57,6 +70,12 @@ public class Powerup extends GameObject {
                 throw new IllegalStateException("Unexpected value: " + type);
         }
         this.active = false;
-        this.destruct();
+        this.respawnTime = 30000;
+    }
+
+    void drawImage(Graphics g) {
+        if (this.active) {
+            super.drawImage(g);
+        }
     }
 }

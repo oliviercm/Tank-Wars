@@ -210,9 +210,10 @@ public class Tank extends GameObject implements Damageable {
         this.health -= damage;
         if (this.isDead()) {
             new Animation(this.x, this.y, 0, ResourceHandler.getImageResource("tankexplosion"), 7, 15);
+            this.setSolid(false);
+            this.lives--;
             if (this.lives > 0) {
                 Tank that = this;
-                this.setSolid(false);
                 new Timer().schedule(
                         new java.util.TimerTask() {
                             @Override
@@ -221,11 +222,20 @@ public class Tank extends GameObject implements Damageable {
                                 return;
                             }
                         },
-                        1500
+                        2000
                 );
-                this.lives--;
             } else {
-                this.gameOver = true;
+                Tank that = this;
+                new Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                that.setGameOver(true);
+                                return;
+                            }
+                        },
+                        5000
+                );
                 this.destruct();
             }
         }
@@ -316,6 +326,10 @@ public class Tank extends GameObject implements Damageable {
 
     boolean getGameOver() {
         return this.gameOver;
+    }
+
+    void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
     @Override

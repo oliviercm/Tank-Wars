@@ -37,9 +37,6 @@ public class Powerup extends GameObject {
     public void update(long timeSinceLastTick) {
         super.update(timeSinceLastTick);
         this.respawnTime = (int) (Math.max(0, this.respawnTime - timeSinceLastTick));
-        if (this.respawnTime > 0) {
-            System.out.println(this.respawnTime);
-        }
         if (!this.active && this.respawnTime <= 0) {
             this.active = true;
         }

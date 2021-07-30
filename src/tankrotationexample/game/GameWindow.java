@@ -123,6 +123,9 @@ public class GameWindow extends JPanel implements Runnable {
             go.drawImage(buffer);
         }
 
+        // Draw HUD
+        this.hud.drawImage(buffer);
+
         // Draw all split screen camera views
         for (Camera cam : Camera.getCameras()) {
             drawCameraView(cam.getFollowObject(), world, g2d, cam.getCameraX(), cam.getCameraY());
@@ -149,9 +152,6 @@ public class GameWindow extends JPanel implements Runnable {
         g2d.setStroke(new BasicStroke((int) (borderThickness / minimapScale)));
         g2d.drawRect((int) ((GameConstants.GAME_SCREEN_WIDTH / minimapScale / 2) - (minimap.getWidth() / 2)), -(int) (borderThickness / minimapScale * 2), minimap.getWidth(), minimap.getHeight() + (int) (borderThickness / minimapScale * 2));
         g2d.scale(1 / minimapScale, 1 / minimapScale);
-
-        // Draw HUD
-        this.hud.drawImage(g2d);
     }
 
     // Draws a centered "view" based on the location of a GameObject onto the passed Graphics.

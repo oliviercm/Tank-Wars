@@ -33,8 +33,9 @@ public class Hud {
             }
         }
         BufferedImage healthBarImage = Hud.getImageFromHealth(player.getHealth());
-        int playerHealthXCoord = GameConstants.GAME_SCREEN_WIDTH * offset / 4 - healthBarImage.getWidth() / 2;
-        int playerHealthYCoord = GameConstants.GAME_SCREEN_HEIGHT / 2 - healthBarImage.getHeight() - player.getImage().getHeight() - 4;
+        Point playerPosition = player.getBBCenter();
+        int playerHealthXCoord = playerPosition.x - healthBarImage.getWidth() / 2;
+        int playerHealthYCoord = playerPosition.y - healthBarImage.getHeight() - player.getImage().getHeight() - 4;
         g2d.setColor(Color.BLACK);
         g2d.fillRect(playerHealthXCoord - 1, playerHealthYCoord - 1, healthBarImage.getWidth() + 2, healthBarImage.getHeight() + 2);
         g2d.drawImage(healthBarImage, playerHealthXCoord, playerHealthYCoord, null);

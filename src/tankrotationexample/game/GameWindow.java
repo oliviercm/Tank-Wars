@@ -77,11 +77,15 @@ public class GameWindow extends JPanel implements Runnable {
         ResourceHandler.loadImageResource("health0", "health0.png");
         ResourceHandler.loadImageResource("shield1", "shield1.png");
         ResourceHandler.loadImageResource("shield2", "shield2.png");
+        ResourceHandler.loadImageResource("powerup_shield", "powerup_shield.png");
+        ResourceHandler.loadImageResource("powerup_shotgun", "powerup_shotgun.png");
+        ResourceHandler.loadImageResource("powerup_speed", "powerup_speed.png");
+        ResourceHandler.loadImageResource("powerup_health", "powerup_health.png");
 
         MapLoader.loadMap("maps/map1");
 
         // Create player 1 and assign to camera
-        Tank tank1 = new Tank(64, 800 - 24, 0,
+        Tank tank1 = new Tank(64, GameConstants.GAME_SCREEN_WIDTH / 2 - 24, 0,
                 ResourceHandler.getImageResource("tank1"),
                 ResourceHandler.getImageResource("tank1transparent"),
                 ResourceHandler.getImageResource("bullet"),
@@ -91,7 +95,7 @@ public class GameWindow extends JPanel implements Runnable {
         this.lf.getJf().addKeyListener(tc1);
 
         // Create player 2 and assign to camera
-        Tank tank2 = new Tank(1600 - 64 - 48, 800 - 24, 180,
+        Tank tank2 = new Tank(GameConstants.GAME_SCREEN_WIDTH - 64 - 48, GameConstants.GAME_SCREEN_WIDTH / 2 - 24, 180,
                 ResourceHandler.getImageResource("tank2"),
                 ResourceHandler.getImageResource("tank2transparent"),
                 ResourceHandler.getImageResource("bullet"),

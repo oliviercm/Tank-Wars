@@ -28,6 +28,16 @@ public class GameObject {
 
     protected BufferedImage img;
 
+    GameObject(double x, double y, double angle) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.bbx = 0;
+        this.bby = 0;
+
+        GameObject.gameObjects.add(this);
+    }
+
     GameObject(double x, double y, double angle, BufferedImage img) {
         this.x = x;
         this.y = y;

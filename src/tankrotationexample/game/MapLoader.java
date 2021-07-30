@@ -23,12 +23,28 @@ public class MapLoader {
                 mapInfo = row.split("\t");
                 for (int curCol = 0; curCol < mapCols; curCol++) {
                     switch (mapInfo[curCol]) {
-                        case "1": {
+                        case "1": { // Unbreakable wall
                             new Wall(32 * curCol, 32 * curRow, 0, ResourceHandler.getImageResource("wall1"));
                             break;
                         }
-                        case "2": {
+                        case "2": { // Breakable wall
                             new BreakableWall(32 * curCol, 32 * curRow, 0, ResourceHandler.getImageResource("wall2"));
+                            break;
+                        }
+                        case "3": { // Shield powerup
+                            new Powerup(32 * curCol, 32 * curRow, PowerupType.SHIELD);
+                            break;
+                        }
+                        case "4": { // Shotgun Powerup
+                            new Powerup(32 * curCol, 32 * curRow, PowerupType.SHOTGUN);
+                            break;
+                        }
+                        case "5": { // Speed Powerup
+                            new Powerup(32 * curCol, 32 * curRow, PowerupType.SPEED);
+                            break;
+                        }
+                        case "6": { // Health Powerup
+                            new Powerup(32 * curCol, 32 * curRow, PowerupType.HEALTH);
                             break;
                         }
                         default: {

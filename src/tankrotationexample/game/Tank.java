@@ -7,15 +7,16 @@ import java.awt.image.BufferedImage;
  * @author olivec
  */
 public class Tank extends GameObject implements Damageable {
-    private final double MOVEMENT_SPEED = 0.25f;
     private final double ROTATION_SPEED = 0.2f;
     private final int MAX_TANK_HEALTH = 100;
 
     private final double spawnX;
     private final double spawnY;
     private final double spawnAngle;
+    private final double spawnSpeed;
     private int health;
     private int lives;
+    private double movementSpeed = 0.25f;
 
     private boolean UpPressed;
     private boolean DownPressed;
@@ -27,16 +28,17 @@ public class Tank extends GameObject implements Damageable {
     private BufferedImage bulletImage;
     private BufferedImage shieldImage;
 
-    private int shieldDuration = 0;
     private int invulnerableDuration = 0;
+    private int shieldDuration = 0;
     private int shotgunDuration = 0;
-
+    private int speedDuration = 0;
 
     Tank(double x, double y, double angle, BufferedImage tankImg, BufferedImage tankTransparentImg, BufferedImage bullet, BufferedImage shield) {
         super(x, y, angle, tankImg);
         this.spawnX = x;
         this.spawnY = y;
         this.spawnAngle = angle;
+        this.spawnSpeed = this.movementSpeed;
         this.tankImage = tankImg;
         this.tankTransparentImage = tankTransparentImg;
         this.bulletImage = bullet;
@@ -83,9 +85,18 @@ public class Tank extends GameObject implements Damageable {
         if (this.isDead()) {
             return;
         }
+        super.update(timeSinceLastTick);
+
         this.invulnerableDuration = (int) (Math.max(0, this.invulnerableDuration - timeSinceLastTick));
         this.shieldDuration = (int) (Math.max(0, this.shieldDuration - timeSinceLastTick));
-        super.update(timeSinceLastTick);
+        this.speedDuration = (int) (Math.max(0, this.speedDuration - timeSinceLastTick));
+
+        if (this.hasSpeed()) {
+            this.movementSpeed = this.spawnSpeed * 1.5;
+        } else {
+            this.movementSpeed = this.spawnSpeed;
+        }
+
         if (this.UpPressed) {
             this.moveForwards(timeSinceLastTick);
         }
@@ -98,6 +109,7 @@ public class Tank extends GameObject implements Damageable {
         if (this.RightPressed) {
             this.rotateRight(timeSinceLastTick);
         }
+        this.pickupPowerups();
     }
 
     void shoot() {
@@ -133,12 +145,12 @@ public class Tank extends GameObject implements Damageable {
     }
 
     private void moveForwards(long timeSinceLastTick) {
-        double delta = this.MOVEMENT_SPEED * timeSinceLastTick;
+        double delta = this.movementSpeed * timeSinceLastTick;
         this.moveForward(delta);
     }
 
     private void moveBackwards(long timeSinceLastTick) {
-        double delta = -this.MOVEMENT_SPEED * timeSinceLastTick;
+        double delta = -this.movementSpeed * timeSinceLastTick;
         this.moveForward(delta);
     }
 
@@ -160,9 +172,17 @@ public class Tank extends GameObject implements Damageable {
         this.health = health;
     }
 
+    public int getMaxHealth() {
+        return this.MAX_TANK_HEALTH;
+    }
+
     public boolean takeDamage(int damage) {
         if (this.hasInvulnerability()) {
             return false;
+        }
+        if (this.hasShield()) {
+            this.shieldDuration = 0;
+            return true;
         }
         this.health -= damage;
         if (this.isDead()) {
@@ -176,12 +196,23 @@ public class Tank extends GameObject implements Damageable {
         return true;
     }
 
+    private void pickupPowerups() {
+        for (GameObject go : this.getIntersectingObjects()) {
+            if (go instanceof Powerup) {
+                ((Powerup) (go)).activate(this);
+            }
+        }
+    }
+
     private void respawn() {
         this.setX(this.spawnX);
         this.setY(this.spawnY);
         this.setAngle(this.spawnAngle);
         this.setHealth(this.MAX_TANK_HEALTH);
         this.invulnerableDuration = 3000;
+        this.shotgunDuration = 0;
+        this.shieldDuration = 0;
+        this.movementSpeed = this.spawnSpeed;
     }
 
     public boolean isDead() {
@@ -209,16 +240,32 @@ public class Tank extends GameObject implements Damageable {
         }
     }
 
-    boolean hasShield() {
-        return this.shieldDuration > 0;
-    }
-
     boolean hasInvulnerability() {
         return this.invulnerableDuration > 0;
     }
 
+    void setShieldDuration(int duration) {
+        this.shieldDuration = duration;
+    }
+
+    boolean hasShield() {
+        return this.shieldDuration > 0;
+    }
+
+    void setShotgunDuration(int duration) {
+        this.shotgunDuration = duration;
+    }
+
     boolean hasShotgun() {
         return this.shotgunDuration > 0;
+    }
+
+    void setSpeedDuration(int duration) {
+        this.speedDuration = duration;
+    }
+
+    boolean hasSpeed() {
+        return this.speedDuration > 0;
     }
 
     @Override

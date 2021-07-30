@@ -209,6 +209,7 @@ public class Tank extends GameObject implements Damageable {
         }
         this.health -= damage;
         if (this.isDead()) {
+            new Animation(this.x, this.y, 0, ResourceHandler.getImageResource("tankexplosion"), 7, 15);
             if (this.lives > 0) {
                 Tank that = this;
                 this.setSolid(false);

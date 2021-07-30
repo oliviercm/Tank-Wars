@@ -52,7 +52,7 @@ Instructions for IntelliJ:
 ## Steps to run your Project:
 Instructions for IntelliJ:
 1. Follow all instructions from [Steps to Import project into IDE](# Steps to Import project into IDE:)
-2. Right-click [/src/tankrotationexample/Launcher](/src/tankrotationexample/Launcher) and select "Run".
+2. Right-click [/src/tankrotationexample/Launcher](/src/tankrotationexample/Launcher.java) and select "Run".
 3. Alternatively, run the .jar file in [/jar](/jar).
 
 ## Controls to play your Game:

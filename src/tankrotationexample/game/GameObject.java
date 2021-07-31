@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class GameObject {
+public abstract class GameObject {
     private static final Set<GameObject> gameObjects = Collections.newSetFromMap(new ConcurrentHashMap<>());
     static GameObject[] getGameObjects() {
         return GameObject.gameObjects.toArray(new GameObject[0]);

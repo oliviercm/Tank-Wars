@@ -168,11 +168,15 @@ public class GameWindow extends JPanel implements Runnable {
 
     // Draws a centered "view" based on the location of a GameObject onto the passed Graphics.
     private void drawCameraView(GameObject followObject, BufferedImage world, Graphics2D g2d, int cameraRow, int cameraColumn) {
+        // Get the position of the object to center the camera view on
         Point cameraPosition = new Point((int) followObject.getX(), (int) followObject.getY());
+        // Find the top-left corner to start cutting the image from
         int imageX = cameraPosition.x - (GameConstants.GAME_SCREEN_WIDTH / (2 * (this.CAMERA_COLUMNS))) + followObject.getImage().getWidth() / 2;
         int imageY = cameraPosition.y - (GameConstants.GAME_SCREEN_HEIGHT / (2 * (this.CAMERA_ROWS))) + followObject.getImage().getHeight() / 2;
+        // Find the bottom-right corner to end cutting the image from, making sure that it doesn't bypass the size of the image
         int clampedImageX = Util.clamp(imageX, 0, GameConstants.WORLD_WIDTH);
         int clampedImageY = Util.clamp(imageY, 0, GameConstants.WORLD_HEIGHT);
+        // Find the X offset (margin) that should be used to display the image (if the subimage had to be clamped)
         int imageMarginX = 0;
         if (imageX < 0) {
             imageMarginX = -imageX;
@@ -180,6 +184,7 @@ public class GameWindow extends JPanel implements Runnable {
             imageMarginX = imageX;
         }
         int imageSizeX = Util.clamp(GameConstants.WORLD_WIDTH - clampedImageX, 0, GameConstants.GAME_SCREEN_WIDTH / (this.CAMERA_COLUMNS) - imageMarginX);
+        // Find the Y offset (margin) that should be used to display the image (if the subimage had to be clamped)
         int imageMarginY = 0;
         if (imageY < 0) {
             imageMarginY = -imageY;
@@ -188,6 +193,7 @@ public class GameWindow extends JPanel implements Runnable {
         }
         int imageSizeY = Util.clamp(GameConstants.WORLD_HEIGHT - clampedImageY, 0, GameConstants.GAME_SCREEN_HEIGHT / (this.CAMERA_ROWS) - imageMarginY);
 
+        // Draw the image, using the calculated margins
         if (imageSizeX > 0 && imageSizeY > 0) {
             BufferedImage cameraView = world.getSubimage(clampedImageX, clampedImageY, imageSizeX, imageSizeY);
             g2d.drawImage(cameraView, cameraColumn * GameConstants.GAME_SCREEN_WIDTH / 2 + imageMarginX, cameraRow * GameConstants.GAME_SCREEN_HEIGHT / 2 + imageMarginY, null);

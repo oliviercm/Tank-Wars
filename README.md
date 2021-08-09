@@ -5,7 +5,7 @@ Players can use the environment and various powerups placed around the map to ou
 
 The game features:
 - A main menu and end screen.
-- Tanks that can rotate, and move forwards and backwards.
+- Tanks that can rotate, move forwards, and move backwards.
 - Tanks that can shoot bullets which damage other tanks.
 - Destructible and indestructible walls.
 - Collisions between tanks, walls, and bullets.

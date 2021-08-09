@@ -1,68 +1,30 @@
-# csc413-tankgame
+# Tank Wars
 
+This is a 2-player competitive game where two players control tanks, and the objective is to shoot and destroy the other player's tank 3 times to win.
+Players can use the environment and various powerups placed around the map to outplay the other player.
 
-| Student Information |                |
-|:-------------------:|----------------|
-|  Student Name       |   Olivier Chan Sion Moy    |
-|  Student Email      |   ochansionmoy@mail.sfsu.edu   |
+The game features:
+- A main menu and end screen.
+- Tanks that can rotate, and move forwards and backwards.
+- Tanks that can shoot bullets which damage other tanks.
+- Destructible and indestructible walls.
+- Collisions between tanks, walls, and bullets.
+- 4 different powerups, which all respawn 60 seconds after being picked up:
+  - A health powerup which restores all tank health.
+  - A weapon powerup which makes tanks fire 3 bullets in an arc for a short duration.
+  - A speed powerup which makes tanks move faster for a short duration.
+  - A shield powerup which makes tanks invulnerable to bullets for a short duration.
 
-## src Folder Purpose 
-src folder is to be used to store source code only.
+## How To Start the Game
 
-## resources Folder Purpose 
-resources folder is to be used to store the resources for your project only. This includes images, sounds, map text files, etc.
+A [.jar file](/jar/csc413-tankgame-oliviercm.jar) is provided in the [/jar](/jar) folder - running the .jar file will start the game. Java must be installed to run the game.
 
-`The src and resources folders can be deleted if you want a different file structure`
+## Documentation
 
-## jar Folder Purpose 
-The jar folder is to be used to store the built jar of your term-project.
+Documentation on how to build the game, and documentation about the source code, is provided in the [PDF file included in this repository](/Documentation.pdf).
 
-`NO SOURCE CODE SHOULD BE IN THIS FOLDER. DOING SO WILL CAUSE POINTS TO BE DEDUCTED`
+## Screenshots
 
-`THIS FOLDER CAN NOT BE DELETED OR MOVED`
-
-# Required Information when Submitting Tank Game
-
-## Version of Java Used:
-openjdk-16 version 16.0.2
-Language level: 8
-
-## IDE used: 
-IntelliJ IDEA 2021.1.3 (Ultimate Edition)
-Build #IU-211.7628.21, built on June 29, 2021
-Runtime version: 11.0.11+9-b1341.60 amd64
-VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
-Kotlin: 211-1.4.32-release-IJ7628.19
-
-## Steps to Import project into IDE:
-Instructions for IntelliJ:
-1. Click "File->New->Project From Version Control"
-2. Use "https://github.com/csc413-su21/csc413-tankgame-oliviercm.git" as the URL.
-3. Click "File->Project Structure"
-4. Set "Project SDK" to openjdk-16 version 16.0.2. You may have to download the SDK through "Add SDK->Download JDK".
-5. Set "Project Language Level" to "8 - Lambdas, type annotations etc.".
-6. Click "Modules".
-7. Right-click the "resources" folder and select "Resources".
-
-## Steps to Build your Project:
-Instructions for IntelliJ:
-1. Follow all instructions from [Steps to Import project into IDE](#steps-to-import-project-into-ide)
-2. Press Alt+F9 to build the project.
- 
-## Steps to run your Project:
-Instructions for IntelliJ:
-1. Follow all instructions from [Steps to Import project into IDE](#steps-to-import-project-into-ide)
-2. Right-click [/src/tankrotationexample/Launcher](/src/tankrotationexample/Launcher.java) and select "Run".
-3. Alternatively, run the .jar file in [/jar](/jar).
-
-## Controls to play your Game:
-
-|               | Player 1 | Player 2 |
-|---------------|----------|----------|
-|  Forward      |     W     |     Up Arrow     |
-|  Backward     |     S     |     Down Arrow     |
-|  Rotate left  |     A     |     Left Arrow     |
-|  Rotate Right |     D     |     Right Arrow     |
-|  Shoot        |     Space     |     Enter     |
-
-<!-- you may add more controls if you need to. -->
+![Tank Wars in-game Screenshot](/screenshots/1.png?raw=true "Tank Wars")
+![Tank Wars in-game Screenshot](/screenshots/2.png?raw=true "Tank Wars")
+![Tank Wars in-game Screenshot](/screenshots/3.png?raw=true "Tank Wars")

@@ -9,6 +9,7 @@ The game features:
 - Tanks that can shoot bullets which damage other tanks.
 - Destructible and indestructible walls.
 - Collisions between tanks, walls, and bullets.
+- Animated explosions for bullet impacts and tank deaths.
 - 4 different powerups, which all respawn 60 seconds after being picked up:
   - A health powerup which restores all tank health.
   - A weapon powerup which makes tanks fire 3 bullets in an arc for a short duration.
